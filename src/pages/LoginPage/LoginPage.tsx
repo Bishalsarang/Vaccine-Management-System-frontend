@@ -1,13 +1,19 @@
+import { useState } from 'react';
 import { useFormik } from 'formik';
 
 import Label from '../../components/Label';
 import TextInput from '../../components/TextInput';
+import Button from '../../components/Button';
+
+import { login } from '../../services/auth.services';
 
 import userSchema from '../../schema/userSchema';
 
-import { LOGIN_FORM } from '../../constants/lang';
+import { LOGIN_FORM } from '../../constants/lang.constants';
 
 export function LoginPage() {
+  const [isLoading, setIsLoading] = useState(false);
+
   const formkik = useFormik({
     initialValues: {
       username: '',
@@ -15,8 +21,15 @@ export function LoginPage() {
     },
     validationSchema: userSchema,
     validateOnBlur: true,
-    onSubmit: () => {
-      // TODO: Write the submit logic
+    onSubmit: async () => {
+      setIsLoading(true);
+
+      await login({
+        username: formkik.values.username,
+        password: formkik.values.password,
+      });
+
+      setIsLoading(false);
     },
   });
 
@@ -64,12 +77,11 @@ export function LoginPage() {
               Signup
             </a>
           </div>
-          <button
+          <Button
             type="submit"
-            className="inline-flex w-full items-center  justify-center rounded-lg  bg-blue-500 px-8 py-4 font-semibold text-white"
-          >
-            {LOGIN_FORM.BUTTONS.LOGIN.label}
-          </button>
+            isLoading={isLoading}
+            label={LOGIN_FORM.BUTTONS.LOGIN.label}
+          />
         </form>
       </div>
     </div>
