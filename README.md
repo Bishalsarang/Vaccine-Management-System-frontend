@@ -44,3 +44,20 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+
+## TODO
+[x] Setup tooling: eslint, prettier, husky
+[x] Add login page
+[ ] Add a protected component
+[ ] Add signup page
+[ ] Add routes
+[ ] Implement refresh token logic
+[ ] Add page for sidebar and vaccine
+[ ] Add dialog to edit the property or we can give inline editing feature
+[ ] Improve the UI
+[ ] Imrove code quality and duplication
+[ ] Integrate the CRUD API
+[ ] Implement sort and pagination (BE if possible)
+[ ] Unit tests
+[ ] Containerize the application
