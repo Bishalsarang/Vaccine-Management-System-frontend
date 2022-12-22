@@ -20,7 +20,7 @@ module.exports = {
   ignorePatterns: ['.eslintrc.js'],
   rules: {
     "prettier/prettier": "error",
-    "no-console": "error",
+    "no-console": "warn",
     "no-return-await": "error",
     "no-await-in-loop": "error",
     "require-await": "error",

@@ -1,10 +1,11 @@
 import './App.css';
-import BasePage from './pages/base-page/base-page';
+import BasePage from './pages/BasePage';
+import LoginPage from './pages/LoginPage';
 
 function App() {
   return (
     <BasePage>
-      <h1 className="text-3xl font-bold">Hello world!</h1>
+      <LoginPage />
     </BasePage>
   );
 }
