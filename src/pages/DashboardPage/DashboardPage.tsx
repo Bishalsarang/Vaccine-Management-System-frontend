@@ -1,3 +1,7 @@
+import { useSelector } from 'react-redux';
+
 export default function DashboardPage() {
-  return <div>DashboardPage</div>;
+  const { userInfo } = useSelector((state: any) => state.user);
+
+  return <div>Welcome {userInfo.username}</div>;
 }

@@ -1,15 +1,18 @@
 import React from 'react';
+import { Provider } from 'react-redux';
 import { createRoot } from 'react-dom/client';
-
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import reportWebVitals from './reportWebVitals';
+
 import './index.css';
 
 import BasePage from './pages/BasePage';
 import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
 import ProtectedPage from './pages/ProtectedPage';
+
+import store from './store';
 
 const router = createBrowserRouter([
   {
@@ -19,9 +22,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: (
-          <ProtectedPage isAuthenticated={false} children={<DashboardPage />} />
-        ),
+        element: <ProtectedPage children={<DashboardPage />} />,
       },
       { path: '/login', element: <LoginPage /> },
     ],
@@ -34,7 +35,9 @@ const root = createRoot(container);
 
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>,
 );
 

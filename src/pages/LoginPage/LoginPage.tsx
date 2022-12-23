@@ -1,18 +1,27 @@
-import { useState } from 'react';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+
 import { useFormik } from 'formik';
 
 import Label from '../../components/Label';
-import TextInput from '../../components/TextInput';
 import Button from '../../components/Button';
+import TextInput from '../../components/TextInput';
 
-import { login } from '../../services/auth.services';
+import userSchema from '../../schemas/userSchema';
 
-import userSchema from '../../schema/userSchema';
+import { useAppDispatch } from '../../store';
+import { userLogin } from '../../slices/slice';
 
 import { LOGIN_FORM } from '../../constants/lang.constants';
 
 export function LoginPage() {
-  const [isLoading, setIsLoading] = useState(false);
+  const { loading: isLoading, userInfo } = useSelector(
+    (state: any) => state.user,
+  );
+
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const formkik = useFormik({
     initialValues: {
@@ -22,16 +31,20 @@ export function LoginPage() {
     validationSchema: userSchema,
     validateOnBlur: true,
     onSubmit: async () => {
-      setIsLoading(true);
-
-      await login({
-        username: formkik.values.username,
-        password: formkik.values.password,
-      });
-
-      setIsLoading(false);
+      await dispatch(
+        userLogin({
+          username: formkik.values.username,
+          password: formkik.values.password,
+        }),
+      );
     },
   });
+
+  useEffect(() => {
+    if (userInfo) {
+      navigate('/');
+    }
+  }, [navigate, userInfo]);
 
   const passwordlabel = formkik.errors.password
     ? formkik.errors.password

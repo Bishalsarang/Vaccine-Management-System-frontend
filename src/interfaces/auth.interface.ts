@@ -10,6 +10,6 @@ export interface SignupPayload extends LoginPayload {
 }
 
 export interface AuthenticationToken {
-  accessToken: string;
-  refreshToken: string;
+  accessToken: string | null;
+  refreshToken: string | null;
 }
