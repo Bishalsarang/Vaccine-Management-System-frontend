@@ -1768,6 +1768,18 @@
     "@svgr/plugin-svgo" "^5.5.0"
     loader-utils "^2.0.0"
 
+"@tanstack/react-table@^8.7.4":
+  version "8.7.4"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-table/-/react-table-8.7.4.tgz#cca662c738cd23f8f7522907a9612e08640ed4e0"
+  integrity sha512-4Q1OV3kUSxbtekclS3sqjCyCDowqCPruUCfHm1nGoPSmVLRCHoQ1E2rmzTVGeocEKgV9TDnj39tOgGwcADPuPA==
+  dependencies:
+    "@tanstack/table-core" "8.7.4"
+
+"@tanstack/table-core@8.7.4":
+  version "8.7.4"
+  resolved "https://registry.yarnpkg.com/@tanstack/table-core/-/table-core-8.7.4.tgz#e6eb718db7fc45c95e8e64e1c66e08a78fa78bf7"
+  integrity sha512-OPhzca7e83KGukxLpZ+4F9OBp9CZXi9b/OGJBH8dlC3wpffcSSDczYGUGJKG7wirXQ6cUVYL+9G6UrrdnblKNQ==
+
 "@testing-library/dom@^8.5.0":
   version "8.19.0"
   resolved "https://registry.yarnpkg.com/@testing-library/dom/-/dom-8.19.0.tgz#bd3f83c217ebac16694329e413d9ad5fdcfd785f"
@@ -7736,6 +7748,11 @@ react-fast-compare@^2.0.1:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-2.0.4.tgz#e84b4d455b0fec113e0402c329352715196f81f9"
   integrity sha512-suNP+J1VU1MWFKcyt7RtjiSWUjvidmQSlqu+eHslq+342xCbGTYmC0mEhPCOHxlW0CywylOC1u2DFAT+bv4dBw==
+
+react-icons@^4.7.1:
+  version "4.7.1"
+  resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-4.7.1.tgz#0f4b25a5694e6972677cb189d2a72eabea7a8345"
+  integrity sha512-yHd3oKGMgm7zxo3EA7H2n7vxSoiGmHk5t6Ou4bXsfcgWyhfDKMpyKfhHR6Bjnn63c+YXBLBPUql9H4wPJM6sXw==
 
 react-is@^16.13.1, react-is@^16.7.0:
   version "16.13.1"
