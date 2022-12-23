@@ -2,10 +2,10 @@
  * Sets a value in local storage.
  *
  * @param {string} key The key to use for the value.
- * @param {string} value The value to set.
+ * @param {string | unknown} value The value to set.
  */
-export function set(key: string, value: string) {
-  localStorage.setItem(key, value);
+export function set(key: string, value: unknown) {
+  localStorage.setItem(key, JSON.stringify(value));
 }
 
 /**
@@ -15,7 +15,17 @@ export function set(key: string, value: string) {
  * @returns {string} The value stored under the specified key.
  */
 export function get(key: string): string | null {
-  return localStorage.getItem(key);
+  const item = localStorage.getItem(key);
+
+  if (!item) {
+    return item;
+  }
+
+  try {
+    return JSON.parse(item);
+  } catch (error) {
+    return item;
+  }
 }
 
 /**

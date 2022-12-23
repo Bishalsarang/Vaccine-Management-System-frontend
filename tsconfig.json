@@ -23,7 +23,6 @@
     "alwaysStrict": true,
     "allowUnreachableCode": false,
     "strictPropertyInitialization": false,
-    "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
   },
