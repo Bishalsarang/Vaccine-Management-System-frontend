@@ -1,8 +1,32 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import App from './App';
+
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+
 import reportWebVitals from './reportWebVitals';
 import './index.css';
+
+import BasePage from './pages/BasePage';
+import LoginPage from './pages/LoginPage';
+import DashboardPage from './pages/DashboardPage';
+import ProtectedPage from './pages/ProtectedPage';
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <BasePage />,
+    errorElement: <div>404 page not found</div>,
+    children: [
+      {
+        path: '/',
+        element: (
+          <ProtectedPage isAuthenticated={false} children={<DashboardPage />} />
+        ),
+      },
+      { path: '/login', element: <LoginPage /> },
+    ],
+  },
+]);
 
 // eslint-disable-next-line
 const container = document.getElementById('root')!;
@@ -10,7 +34,7 @@ const root = createRoot(container);
 
 root.render(
   <React.StrictMode>
-    <App />
+    <RouterProvider router={router} />
   </React.StrictMode>,
 );
 
