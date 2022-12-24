@@ -18,12 +18,14 @@ import {
   UserState,
   userLoginPendingReducer,
   userLoginRejectedReducer,
-  userLoginFulfilledReducer,
-  setAuthenticationTokenReducer,
   userSignupPendingReducer,
-  userSignupFulfilledReducer,
+  userLoginFulfilledReducer,
   userSignupRejectedReducer,
+  userSignupFulfilledReducer,
+  setAuthenticationTokenReducer,
 } from './reducers/userReducer';
+
+import * as storage from '../utils/storage';
 
 const { accessToken, refreshToken } = getAuthenticationTokenFromLocalStorage();
 
@@ -78,6 +80,13 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setAuthenticationTokenReducer,
+    logoutUser(state: UserState) {
+      state.userInfo = null;
+      state.accessToken = null;
+      state.refreshToken = null;
+
+      storage.clear();
+    },
   },
   extraReducers: {
     [loginUser.pending as any]: userLoginPendingReducer,
@@ -88,5 +97,7 @@ const userSlice = createSlice({
     [signupUser.fulfilled as any]: userSignupFulfilledReducer,
   },
 });
+
+export const { logoutUser } = userSlice.actions;
 
 export default userSlice.reducer;

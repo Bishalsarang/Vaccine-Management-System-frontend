@@ -1,17 +1,20 @@
 interface ButtonProps {
   isLoading?: boolean;
   label: string;
+  onClick?: () => void;
   type?: 'submit' | 'button';
 }
 
 export function Button({
   label,
   type = 'button',
+  onClick,
   isLoading = false,
 }: ButtonProps) {
   return (
     <button
       type={type}
+      onClick={onClick}
       className="inline-flex w-full items-center justify-center gap-4 rounded-lg  bg-blue-500 px-8 py-4 font-semibold text-white"
     >
       {isLoading && (

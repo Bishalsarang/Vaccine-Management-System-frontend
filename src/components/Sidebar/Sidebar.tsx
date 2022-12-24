@@ -1,4 +1,3 @@
-import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 import { IconType } from 'react-icons/lib/cjs/iconBase';

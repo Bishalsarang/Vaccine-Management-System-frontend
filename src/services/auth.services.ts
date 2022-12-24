@@ -16,7 +16,7 @@ export async function login(
   return res.data;
 }
 
-export async function signup(payload: SignupPayload) {
+export async function signup(payload: SignupPayload): Promise<any> {
   const res = await axios.post(SIGNUP, payload);
 
   return res.data;

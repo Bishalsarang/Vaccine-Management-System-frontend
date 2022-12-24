@@ -4,6 +4,7 @@ import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import reportWebVitals from './reportWebVitals';
+
 import './index.css';
 
 import BasePage from './pages/BasePage';

@@ -7,7 +7,7 @@ type FormField = {
   type: string;
   label: string;
   placeholder: string;
-  errorLabel?: string | undefined;
+  errorLabel?: string;
 };
 
 interface RenderFormProps {
