@@ -1,7 +1,10 @@
-import { AuthenticationToken } from './../interfaces/auth.interface';
+import { SIGNUP } from './../constants/endpoints.constants';
+import {
+  LoginPayload,
+  SignupPayload,
+  AuthenticationToken,
+} from '../interfaces/auth.interface';
 import axios from 'axios';
-
-import { LoginPayload } from '../interfaces/auth.interface';
 
 import { LOGIN } from '../constants/endpoints.constants';
 
@@ -9,6 +12,12 @@ export async function login(
   payload: LoginPayload,
 ): Promise<AuthenticationToken> {
   const res = await axios.post(LOGIN, payload);
+
+  return res.data;
+}
+
+export async function signup(payload: SignupPayload) {
+  const res = await axios.post(SIGNUP, payload);
 
   return res.data;
 }

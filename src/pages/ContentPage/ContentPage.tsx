@@ -1,11 +1,11 @@
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../../hooks/hooks';
 
 export default function ContentPage() {
-  const { userInfo } = useSelector((state: any) => state.user);
+  const { userInfo } = useAppSelector((state) => state.user);
 
   return (
     <div className="container p-4">
-      ContentPage: Welcome {userInfo.username}
+      ContentPage: Welcome {JSON.stringify(userInfo)}
     </div>
   );
 }

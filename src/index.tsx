@@ -12,6 +12,7 @@ import DashboardPage from './pages/DashboardPage';
 import ProtectedPage from './pages/ProtectedPage';
 
 import store from './store';
+import SignupPage from './pages/SignupPage';
 
 const router = createBrowserRouter([
   {
@@ -23,7 +24,8 @@ const router = createBrowserRouter([
         path: '/',
         element: <ProtectedPage children={<DashboardPage />} />,
       },
-      { path: '/login', element: <LoginPage /> },
+      { path: '/signin', element: <LoginPage /> },
+      { path: '/signup', element: <SignupPage /> },
     ],
   },
 ]);
