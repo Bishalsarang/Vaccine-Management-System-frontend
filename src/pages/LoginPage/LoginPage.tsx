@@ -12,6 +12,7 @@ import { loginUser } from '../../slices/userSlice';
 import { LOGIN_FORM } from '../../constants/lang.constants';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import Banner from '../../components/Banner';
 
 export function LoginPage() {
   const { loading: isLoading, accessToken } = useAppSelector(
@@ -27,6 +28,7 @@ export function LoginPage() {
       password: '',
     },
     validationSchema: userLoginSchema,
+    validateOnChange: false,
     onSubmit: async () => {
       await dispatch(
         loginUser({
@@ -66,14 +68,17 @@ export function LoginPage() {
   ];
 
   return (
-    <div className="m-auto grid w-1/2 gap-10">
-      <Form
-        fields={FIELDS}
-        isLoading={isLoading}
-        formikInstance={formik}
-        submitButtonLabel={LOGIN_FORM.BUTTONS.LOGIN.label}
-        title="Login to Your Account"
-      ></Form>
+    <div className="m-auto grid h-screen grid-cols-2">
+      <Banner isLoginPage />
+      <div className="flex items-center justify-center">
+        <Form
+          fields={FIELDS}
+          isLoading={isLoading}
+          formikInstance={formik}
+          submitButtonLabel={LOGIN_FORM.BUTTONS.LOGIN.label}
+          title="Login to Your Account"
+        ></Form>
+      </div>
     </div>
   );
 }

@@ -20,7 +20,7 @@ export function TextInput({
       value={value}
       onChange={onChange}
       placeholder={placeholder}
-      className="w-full rounded-lg border border-gray-200 bg-transparent p-4 outline-none focus:outline-gray-400"
+      className="w-full rounded-lg border border-gray-200 bg-transparent p-2 outline-none focus:outline-gray-400"
     />
   );
 }

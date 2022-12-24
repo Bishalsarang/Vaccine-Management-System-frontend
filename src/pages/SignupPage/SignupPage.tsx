@@ -12,6 +12,7 @@ import { SIGNUP_FORM } from '../../constants/lang.constants';
 import { signupUser } from '../../slices/userSlice';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import Banner from '../../components/Banner';
 
 export function SignupPage() {
   const { loading: isLoading, userInfo } = useAppSelector(
@@ -97,9 +98,9 @@ export function SignupPage() {
     },
   ];
 
-  console.log(formik.values);
   return (
-    <div className="m-auto grid w-1/2 gap-10">
+    <div className="m-auto grid h-screen grid-cols-2">
+      <Banner />
       <Form
         fields={FIELDS}
         isLoading={isLoading}

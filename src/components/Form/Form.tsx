@@ -29,7 +29,7 @@ export default function Form({
     <form
       autoComplete="false"
       onSubmit={formikInstance.handleSubmit}
-      className="w-full rounded-lg p-10 shadow"
+      className="w-full rounded-lg p-8 shadow"
     >
       <h2 className="mb-10 text-center text-3xl font-bold">{title}</h2>
       <div className="mb-5 flex flex-col gap-y-3">

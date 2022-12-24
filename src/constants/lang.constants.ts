@@ -10,7 +10,7 @@ export const LOGIN_FORM = {
 };
 
 export const SIGNUP_FORM = {
-  TITLE: 'Signup an Account',
+  TITLE: 'Create an Account',
   FIELDS: {
     LASTNAME: { label: 'Lastname' },
     USERNAME: { label: 'Username' },
