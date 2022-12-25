@@ -1,4 +1,5 @@
 import { AuthenticationToken } from '../../interfaces/auth.interface';
+import { getUserInfoFromToken } from '../../utils/auth';
 
 export interface UserState {
   success: boolean;
@@ -36,7 +37,7 @@ export function userLoginFulfilledReducer(
   { payload }: { payload: AuthenticationToken },
 ) {
   state.isLoading = false;
-  state.userInfo = payload;
+  state.userInfo = getUserInfoFromToken(payload.accessToken);
   state.accessToken = payload.accessToken;
   state.refreshToken = payload.refreshToken;
 }

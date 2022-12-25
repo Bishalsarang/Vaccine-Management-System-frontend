@@ -13,7 +13,10 @@ import DashboardPage from './pages/DashboardPage';
 import ProtectedPage from './pages/ProtectedPage';
 
 import store from './store';
+import { injectStore } from './utils/axios';
 import SignupPage from './pages/SignupPage';
+
+injectStore(store);
 
 const router = createBrowserRouter([
   {

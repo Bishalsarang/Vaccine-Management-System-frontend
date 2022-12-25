@@ -1,6 +1,5 @@
-import { interpolate } from '../utils/string';
-
 import { axiosInstance } from '../utils/axios';
+import { interpolate } from '../utils/string';
 
 import {
   Vaccine,
