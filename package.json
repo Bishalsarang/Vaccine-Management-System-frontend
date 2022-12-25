@@ -72,7 +72,8 @@
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{ts,tsx}",
-      "!src/schemas/**/*"
+      "!src/schemas/**/*",
+      "!src/mocks/**/*"
     ]
   }
   
