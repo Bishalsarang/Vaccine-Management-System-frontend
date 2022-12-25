@@ -23,7 +23,7 @@ export function saveAuthenticationToken(
  *
  * @param  {String} token
  */
-export function decodeJWT(token: string | null) {
+export function decodeJWT(token: string | null | undefined) {
   if (!token) {
     return null;
   }

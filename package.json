@@ -68,5 +68,12 @@
       "eslint --fix",
       "git add"
     ]
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{ts,tsx}",
+      "!src/schemas/**/*"
+    ]
   }
+  
 }

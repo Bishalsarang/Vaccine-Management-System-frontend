@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 
-import { ERROR_MESSAGE } from '../utils/errors';
+import { ERROR_MESSAGE } from '../utils/misc';
 
 const CHARACTER_LIMIT_NAME = 20;
 
