@@ -34,8 +34,7 @@ const initialState: UserState = {
   accessToken,
   refreshToken,
   success: false,
-  loading: false,
-  pending: false,
+  isLoading: false,
   userInfo: getUserInfoFromToken(accessToken),
 };
 

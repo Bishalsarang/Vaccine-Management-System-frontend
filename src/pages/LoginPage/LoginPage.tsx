@@ -15,9 +15,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import Banner from '../../components/Banner';
 
 export function LoginPage() {
-  const { loading: isLoading, accessToken } = useAppSelector(
-    (state) => state.user,
-  );
+  const { isLoading, accessToken } = useAppSelector((state) => state.user);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
