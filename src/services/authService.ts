@@ -1,4 +1,4 @@
-import { SIGNUP } from './../constants/endpoints.constants';
+import { SIGNUP } from '../constants/endpoints.constants';
 import {
   LoginPayload,
   SignupPayload,

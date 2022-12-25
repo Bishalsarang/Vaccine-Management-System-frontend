@@ -6,7 +6,7 @@ import {
   AuthenticationToken,
 } from '../interfaces/auth.interface';
 
-import { login, signup } from '../services/auth.services';
+import { login, signup } from '../services/authService';
 
 import {
   getUserInfoFromToken,
