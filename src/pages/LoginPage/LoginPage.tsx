@@ -17,9 +17,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import Banner from '../../components/Banner';
 
 export function LoginPage() {
-  const { isLoading, accessToken, error, success } = useAppSelector(
-    (state) => state.user,
-  );
+  const { isLoading, accessToken } = useAppSelector((state) => state.user);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -31,34 +29,30 @@ export function LoginPage() {
     },
     validationSchema: userLoginSchema,
     onSubmit: async () => {
-      await dispatch(
+      const data = await dispatch(
         loginUser({
           username: formik.values.username,
           password: formik.values.password,
         }),
       );
+
+      if ('error' in data) {
+        toast.error(LOGIN_FORM.MESSAGES.FAIL, {
+          autoClose: 1000,
+          hideProgressBar: true,
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
+
+        return;
+      }
+
+      toast.success(LOGIN_FORM.MESSAGES.SUCESS, {
+        autoClose: 1000,
+        hideProgressBar: true,
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
     },
   });
-
-  useEffect(() => {
-    if (error) {
-      toast.error(LOGIN_FORM.MESSAGES.FAIL, {
-        position: toast.POSITION.BOTTOM_RIGHT,
-        toastId: 'login-progress',
-        hideProgressBar: true,
-      });
-    }
-  }, [error]);
-
-  useEffect(() => {
-    if (success) {
-      toast.success(LOGIN_FORM.MESSAGES.SUCESS, {
-        position: toast.POSITION.BOTTOM_RIGHT,
-        toastId: 'login-progress',
-        hideProgressBar: true,
-      });
-    }
-  }, [success]);
 
   useEffect(() => {
     if (accessToken) {

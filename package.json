@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.1",
+    "@tailwindcss/line-clamp": "^0.4.2",
     "@tanstack/react-table": "^8.7.4",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.0.1",

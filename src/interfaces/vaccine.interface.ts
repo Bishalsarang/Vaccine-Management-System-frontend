@@ -9,9 +9,9 @@ export interface CreateVaccinePayload {
 
 export interface Vaccine extends CreateVaccinePayload {
   id: number;
-  createdAt: Date;
-  updatedAt: Date;
-  deletedAt: Date;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string;
 }
 
 export type PatchVaccinePayload = Partial<CreateVaccinePayload>;

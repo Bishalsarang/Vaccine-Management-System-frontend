@@ -9,7 +9,7 @@ export const SIDEBAR_NAV_ITEMS = [
   {
     icon: FaVial,
     label: 'Vaccines',
-    path: '/vaccines',
+    path: '/',
   },
   {
     label: 'Profile',
