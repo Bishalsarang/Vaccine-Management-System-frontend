@@ -4,6 +4,7 @@ interface TextInputProps {
   type: string;
   placeholder: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export function TextInput({
@@ -12,6 +13,7 @@ export function TextInput({
   type,
   placeholder,
   onChange,
+  onBlur,
 }: TextInputProps) {
   return (
     <input
@@ -19,6 +21,7 @@ export function TextInput({
       type={type}
       value={value}
       onChange={onChange}
+      onBlur={onBlur}
       placeholder={placeholder}
       className="w-full rounded-lg border border-gray-200 bg-transparent p-2 outline-none focus:outline-gray-400"
     />
