@@ -32,7 +32,6 @@ export function SignupPage() {
       confirmPassword: '',
     },
     validationSchema: userSignupSchema,
-    validateOnChange: false,
     onSubmit: async () => {
       const { username, password, firstname, lastname, email } = formik.values;
       await dispatch(
@@ -64,37 +63,37 @@ export function SignupPage() {
     {
       type: 'email',
       id: 'email',
-      label: 'Email',
+      label: SIGNUP_FORM.FIELDS.EMAIL.label,
       placeholder: `Enter Email`,
       errorLabel: formik.errors.email,
     },
     {
       type: 'text',
       id: 'firstname',
-      label: 'Firstname',
+      label: SIGNUP_FORM.FIELDS.FIRSTNAME.label,
       placeholder: `Enter Firstname`,
       errorLabel: formik.errors.firstname,
     },
     {
       type: 'text',
       id: 'lastname',
-      label: 'Lastname',
+      label: SIGNUP_FORM.FIELDS.LASTNAME.label,
       placeholder: `Enter Lastname`,
       errorLabel: formik.errors.lastname,
     },
     {
       id: 'password',
       type: 'password',
-      label: 'Password',
+      label: SIGNUP_FORM.FIELDS.PASSWORD.label,
       placeholder: `Enter password`,
       errorLabel: formik.errors.password,
     },
     {
       type: 'password',
       id: 'confirmPassword',
-      label: 'Confirm Password',
       placeholder: `Confirm password`,
       errorLabel: formik.errors.confirmPassword,
+      label: SIGNUP_FORM.FIELDS.CONFIRM_PASSSWORD.label,
     },
   ];
 

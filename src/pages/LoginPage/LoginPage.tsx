@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { toast } from 'react-toastify';
+
 import { useFormik } from 'formik';
 
 import Form from '../../components/Form';
@@ -15,7 +17,9 @@ import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import Banner from '../../components/Banner';
 
 export function LoginPage() {
-  const { isLoading, accessToken } = useAppSelector((state) => state.user);
+  const { isLoading, accessToken, error, success } = useAppSelector(
+    (state) => state.user,
+  );
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -26,7 +30,6 @@ export function LoginPage() {
       password: '',
     },
     validationSchema: userLoginSchema,
-    validateOnChange: false,
     onSubmit: async () => {
       await dispatch(
         loginUser({
@@ -36,6 +39,26 @@ export function LoginPage() {
       );
     },
   });
+
+  useEffect(() => {
+    if (error) {
+      toast.error(LOGIN_FORM.MESSAGES.FAIL, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        toastId: 'login-progress',
+        hideProgressBar: true,
+      });
+    }
+  }, [error]);
+
+  useEffect(() => {
+    if (success) {
+      toast.success(LOGIN_FORM.MESSAGES.SUCESS, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        toastId: 'login-progress',
+        hideProgressBar: true,
+      });
+    }
+  }, [success]);
 
   useEffect(() => {
     if (accessToken) {
@@ -54,14 +77,16 @@ export function LoginPage() {
     {
       type: 'text',
       id: 'username',
-      label: usernameLabel,
+      label: LOGIN_FORM.FIELDS.USERNAME.label,
       placeholder: `Enter ${usernameLabel}`,
+      errorLabel: formik.errors.username,
     },
     {
       id: 'password',
       type: 'password',
-      label: passwordLabel,
+      label: LOGIN_FORM.FIELDS.PASSWORD.label,
       placeholder: `Enter ${passwordLabel}`,
+      errorLabel: formik.errors.password,
     },
   ];
 

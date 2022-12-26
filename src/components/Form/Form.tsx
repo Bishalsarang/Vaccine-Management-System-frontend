@@ -37,12 +37,17 @@ export default function Form({
           <div key={id} className="flex flex-col  gap-y-3">
             <Label
               htmlFor={id}
-              value={errorLabel ? errorLabel : label}
-              type={errorLabel ? 'error' : 'default'}
+              value={
+                errorLabel && formikInstance.touched[id] ? errorLabel : label
+              }
+              type={
+                errorLabel && formikInstance.touched[id] ? 'error' : 'default'
+              }
             />
             <TextInput
               id={id}
               type={type}
+              onBlur={formikInstance.handleBlur}
               onChange={formikInstance.handleChange}
               value={formikInstance.values[id]}
               placeholder={placeholder}

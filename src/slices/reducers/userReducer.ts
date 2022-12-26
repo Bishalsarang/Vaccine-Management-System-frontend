@@ -37,6 +37,7 @@ export function userLoginFulfilledReducer(
   { payload }: { payload: AuthenticationToken },
 ) {
   state.isLoading = false;
+  state.success = true;
   state.userInfo = getUserInfoFromToken(payload.accessToken);
   state.accessToken = payload.accessToken;
   state.refreshToken = payload.refreshToken;
