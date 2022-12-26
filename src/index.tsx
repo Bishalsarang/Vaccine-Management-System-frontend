@@ -15,6 +15,7 @@ import ProtectedPage from './pages/ProtectedPage';
 import store from './store';
 import { injectStore } from './utils/axios';
 import SignupPage from './pages/SignupPage';
+import SignoutPage from './pages/SignoutPage';
 
 injectStore(store);
 
@@ -30,6 +31,7 @@ const router = createBrowserRouter([
       },
       { path: '/signin', element: <LoginPage /> },
       { path: '/signup', element: <SignupPage /> },
+      { path: '/signout', element: <SignoutPage /> },
     ],
   },
 ]);

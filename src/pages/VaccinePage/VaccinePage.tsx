@@ -52,7 +52,7 @@ const SKELETON_COLUMNS = COLUMNS.map((column) => ({
 
 function VaccinePage() {
   const { vaccines = [], isLoading } = useAppSelector((state) => state.vaccine);
-  const [isVaccineDialogOpen, setIsVaccineDialogOpen] = useState(true);
+  const [isVaccineDialogOpen, setIsVaccineDialogOpen] = useState(false);
   const dispatch = useAppDispatch();
 
   useEffect(() => {

@@ -17,8 +17,8 @@ export const SIDEBAR_NAV_ITEMS = [
     icon: FaUserCircle,
   },
   {
-    label: 'Logout',
-    path: '/logout',
+    label: 'SignOut',
+    path: '/signout',
     icon: FaSignOutAlt,
   },
 ];
