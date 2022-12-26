@@ -4,11 +4,12 @@ import {
   getCoreRowModel,
   createColumnHelper,
 } from '@tanstack/react-table';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { AiFillPlusCircle } from 'react-icons/ai';
 import { VscError, VscPass } from 'react-icons/vsc';
 
 import Skeleton from '../../components/Skeleton';
-
+import VaccineDialog from '../../components/VaccineDialog';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 
 import { Vaccine } from '../../interfaces/vaccine.interface';
@@ -51,6 +52,7 @@ const SKELETON_COLUMNS = COLUMNS.map((column) => ({
 
 function VaccinePage() {
   const { vaccines = [], isLoading } = useAppSelector((state) => state.vaccine);
+  const [isVaccineDialogOpen, setIsVaccineDialogOpen] = useState(true);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -73,42 +75,58 @@ function VaccinePage() {
   });
 
   return (
-    <div className="h-4/5 overflow-auto p-2">
-      <table className="w-full table-auto shadow-md">
-        <thead>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <th
-                  key={header.id}
-                  className="sticky top-0 bg-gray-700 p-4 text-white"
-                >
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext(),
+    <>
+      <VaccineDialog
+        isOpen={isVaccineDialogOpen}
+        onClose={() => setIsVaccineDialogOpen(false)}
+      />
+      <div className="h-4/5 overflow-auto p-2">
+        <table className="w-full table-auto shadow-md">
+          <thead>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <tr key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <th
+                    key={header.id}
+                    className="sticky top-0 bg-gray-700 p-4 text-white"
+                  >
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
+                  </th>
+                ))}
+              </tr>
+            ))}
+          </thead>
+          <tbody>
+            {table.getRowModel().rows.map((row) => (
+              <tr key={row.id} className="m-1 shadow-sm">
+                {row.getVisibleCells().map((cell) => (
+                  <td key={cell.id} className="p-4">
+                    <div className="line-clamp-4">
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
                       )}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody>
-          {table.getRowModel().rows.map((row) => (
-            <tr key={row.id} className="m-1 shadow-sm">
-              {row.getVisibleCells().map((cell) => (
-                <td key={cell.id} className="p-4">
-                  <div className="line-clamp-4">
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </div>
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+                    </div>
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <button
+        className="fixed bottom-10 right-10"
+        onClick={() => setIsVaccineDialogOpen(true)}
+      >
+        <AiFillPlusCircle color="pink" size={'4rem'} />
+      </button>
+    </>
   );
 }
 
