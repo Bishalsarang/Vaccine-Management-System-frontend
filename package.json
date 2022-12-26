@@ -12,6 +12,9 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@mui/material": "^5.11.1",
     "@reduxjs/toolkit": "^1.8.1",
     "@tailwindcss/line-clamp": "^0.4.2",
     "@tanstack/react-table": "^8.7.4",

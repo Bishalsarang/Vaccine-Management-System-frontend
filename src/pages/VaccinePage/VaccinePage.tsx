@@ -7,7 +7,8 @@ import {
 import React, { useEffect, useState } from 'react';
 import { AiFillPlusCircle } from 'react-icons/ai';
 import { VscError, VscPass } from 'react-icons/vsc';
-
+import { BsSkipEndBtnFill } from 'react-icons/bs';
+import { MdEdit, MdDelete } from 'react-icons/md';
 import Skeleton from '../../components/Skeleton';
 import VaccineDialog from '../../components/VaccineDialog';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
@@ -16,6 +17,7 @@ import { Vaccine } from '../../interfaces/vaccine.interface';
 import { getVaccineThunk } from '../../slices/vaccineSlice';
 
 import { formateDateToShort } from '../../utils/date';
+import ThreeDotMenu from '../../components/ThreeDotMenu';
 
 const columnHelper = createColumnHelper<Vaccine>();
 
@@ -42,6 +44,28 @@ const COLUMNS = [
   columnHelper.accessor('updatedAt', {
     header: 'Updated At',
     cell: (info) => formateDateToShort(info.getValue()),
+  }),
+  columnHelper.display({
+    id: 'actions',
+    cell: (info) => (
+      <ThreeDotMenu
+        menuItems={[
+          {
+            label: 'Edit',
+            icon: <MdEdit size={24} />,
+            onClick: () => {
+              // TODO: Open the dialog with these values
+              console.log('Open Edit', info.cell.row.original);
+            },
+          },
+          {
+            label: 'Delete',
+            icon: <MdDelete size={24} />,
+            onClick: () => console.log('Open Delete'),
+          },
+        ]}
+      />
+    ),
   }),
 ];
 
@@ -80,7 +104,7 @@ function VaccinePage() {
         isOpen={isVaccineDialogOpen}
         onClose={() => setIsVaccineDialogOpen(false)}
       />
-      <div className="h-4/5 overflow-auto p-2">
+      <div className="h-4/5 overflow-auto rounded-xl p-2">
         <table className="w-full table-auto shadow-md">
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -88,7 +112,7 @@ function VaccinePage() {
                 {headerGroup.headers.map((header) => (
                   <th
                     key={header.id}
-                    className="sticky top-0 bg-gray-700 p-4 text-white"
+                    className="sticky top-0 bg-gray-700 p-4 text-left text-white"
                   >
                     {header.isPlaceholder
                       ? null
@@ -103,7 +127,10 @@ function VaccinePage() {
           </thead>
           <tbody>
             {table.getRowModel().rows.map((row) => (
-              <tr key={row.id} className="m-1 shadow-sm">
+              <tr
+                key={row.id}
+                className="m-1 cursor-pointer shadow-sm hover:bg-zinc-50"
+              >
                 {row.getVisibleCells().map((cell) => (
                   <td key={cell.id} className="p-4">
                     <div className="line-clamp-4">
