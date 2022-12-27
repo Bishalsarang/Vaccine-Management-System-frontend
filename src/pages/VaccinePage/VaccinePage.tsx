@@ -1,22 +1,27 @@
+import React, { useEffect, useState } from 'react';
+
 import {
   flexRender,
   useReactTable,
   getCoreRowModel,
   createColumnHelper,
 } from '@tanstack/react-table';
-import React, { useEffect, useState } from 'react';
-import { AiFillPlusCircle } from 'react-icons/ai';
-import { VscError, VscPass } from 'react-icons/vsc';
+
 import { MdEdit, MdDelete } from 'react-icons/md';
+import { VscError, VscPass } from 'react-icons/vsc';
+import { Add as AddIcon } from '@mui/icons-material';
+
 import Skeleton from '../../components/Skeleton';
+import ThreeDotMenu from '../../components/ThreeDotMenu';
 import VaccineDialog from '../../components/VaccineDialog';
+import FabButton from '../../components/FabButton/FabButton';
+
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
-import { Vaccine } from '../../interfaces/vaccine.interface';
 import { getVaccineThunk } from '../../slices/vaccineSlice';
+import { Vaccine } from '../../interfaces/vaccine.interface';
 
 import { formateDateToShort } from '../../utils/date';
-import ThreeDotMenu from '../../components/ThreeDotMenu';
 
 const columnHelper = createColumnHelper<Vaccine>();
 
@@ -91,6 +96,16 @@ function VaccinePage() {
     [vaccines, isLoading],
   );
 
+  const openVaccineDialog = React.useCallback(
+    () => setIsVaccineDialogOpen(true),
+    [],
+  );
+
+  const closeVaccineDialog = React.useCallback(
+    () => setIsVaccineDialogOpen(false),
+    [],
+  );
+
   const table = useReactTable({
     data,
     columns,
@@ -101,7 +116,7 @@ function VaccinePage() {
     <>
       <VaccineDialog
         isOpen={isVaccineDialogOpen}
-        onClose={() => setIsVaccineDialogOpen(false)}
+        onClose={closeVaccineDialog}
       />
       <div className="h-4/5 overflow-auto rounded-xl p-2">
         <table className="w-full table-auto shadow-md">
@@ -146,12 +161,9 @@ function VaccinePage() {
         </table>
       </div>
 
-      <button
-        className="fixed bottom-10 right-10"
-        onClick={() => setIsVaccineDialogOpen(true)}
-      >
-        <AiFillPlusCircle color="pink" size={'4rem'} />
-      </button>
+      <FabButton tooltipMessage="Add Vaccine" onClick={openVaccineDialog}>
+        <AddIcon />
+      </FabButton>
     </>
   );
 }

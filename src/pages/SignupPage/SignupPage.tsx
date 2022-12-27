@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { useFormik } from 'formik';
 
-import Form from '../../components/Form';
+import Form, { FormField } from '../../components/Form';
 
 import { userSignupSchema } from '../../schemas/userSchema';
 
@@ -52,7 +52,7 @@ export function SignupPage() {
     }
   }, [navigate, userInfo]);
 
-  const FIELDS = [
+  const FIELDS: FormField[] = [
     {
       type: 'text',
       id: 'username',
@@ -101,6 +101,7 @@ export function SignupPage() {
     <div className="m-auto grid h-screen grid-cols-2">
       <Banner />
       <Form
+        hasBorder
         fields={FIELDS}
         isLoading={isLoading}
         formikInstance={formik}

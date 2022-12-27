@@ -2,36 +2,43 @@ import Label from '../../components/Label';
 import Button from '../../components/Button';
 import TextInput from '../../components/TextInput';
 
-type FormField = {
+export type FormField = {
   id: string;
-  type: string;
+  type?: string;
   label: string;
-  placeholder: string;
+  renderer?: 'text' | 'textArea' | 'checkbox';
+  placeholder?: string;
   errorLabel?: string;
 };
 
 interface RenderFormProps {
-  title: string;
+  title?: string;
   formikInstance: any;
   isLoading?: boolean;
   fields: FormField[];
-  submitButtonLabel: string;
+  hasBorder?: boolean;
+  submitButtonLabel?: string;
 }
 
 export default function Form({
   title,
   fields = [],
   formikInstance,
+  hasBorder = false,
   isLoading = false,
-  submitButtonLabel = 'Submit',
+  submitButtonLabel,
 }: RenderFormProps) {
+  const formClass = hasBorder ? 'w-full rounded-lg p-8 shadow' : 'w-full';
+
   return (
     <form
       autoComplete="false"
+      className={formClass}
       onSubmit={formikInstance.handleSubmit}
-      className="w-full rounded-lg p-8 shadow"
     >
-      <h2 className="mb-10 text-center text-3xl font-bold">{title}</h2>
+      {title && (
+        <h2 className="mb-10 text-center text-3xl font-bold">{title}</h2>
+      )}
       <div className="mb-5 flex flex-col gap-y-3">
         {fields.map(({ id, placeholder, type, label, errorLabel }) => (
           <div key={id} className="flex flex-col  gap-y-3">
@@ -44,19 +51,24 @@ export default function Form({
                 errorLabel && formikInstance.touched[id] ? 'error' : 'default'
               }
             />
-            <TextInput
-              id={id}
-              type={type}
-              onBlur={formikInstance.handleBlur}
-              onChange={formikInstance.handleChange}
-              value={formikInstance.values[id]}
-              placeholder={placeholder}
-            ></TextInput>
+
+            {type && placeholder && (
+              <TextInput
+                id={id}
+                type={type}
+                placeholder={placeholder}
+                value={formikInstance.values[id]}
+                onBlur={formikInstance.handleBlur}
+                onChange={formikInstance.handleChange}
+              ></TextInput>
+            )}
           </div>
         ))}
       </div>
 
-      <Button type="submit" isLoading={isLoading} label={submitButtonLabel} />
+      {submitButtonLabel && (
+        <Button type="submit" isLoading={isLoading} label={submitButtonLabel} />
+      )}
     </form>
   );
 }

@@ -80,6 +80,7 @@ export function LoginPage() {
       <Banner isLoginPage />
       <div className="flex items-center justify-center">
         <Form
+          hasBorder
           fields={FIELDS}
           isLoading={isLoading}
           formikInstance={formik}
