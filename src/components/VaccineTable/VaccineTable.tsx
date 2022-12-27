@@ -17,17 +17,17 @@ import ThreeDotMenu from '../../components/ThreeDotMenu';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
-import { deleteVaccineThunk, getVaccineThunk } from '../../slices/vaccineSlice';
+import { getVaccineThunk } from '../../slices/vaccineSlice';
 import { Vaccine, VaccineStage } from '../../interfaces/vaccineInterface';
 
 import { formateDateToShort } from '../../utils/date';
-import { showSuccessMessage } from '../../utils/toast';
 import { VACCINE_STAGES } from '../../constants/base.constants';
 
 const columnHelper = createColumnHelper<Vaccine>();
 
 interface VaccineTableProps {
   openVaccineDialog: () => void;
+  openVaccineDeleteDialog: (vaccine: Vaccine) => void;
 }
 
 function renderStage(stage: VaccineStage) {
@@ -47,7 +47,10 @@ function renderStage(stage: VaccineStage) {
   }
 }
 
-function VaccineTable({ openVaccineDialog }: VaccineTableProps) {
+function VaccineTable({
+  openVaccineDialog,
+  openVaccineDeleteDialog,
+}: VaccineTableProps) {
   const { vaccines = [], isLoading } = useAppSelector((state) => state.vaccine);
   const dispatch = useAppDispatch();
 
@@ -69,13 +72,7 @@ function VaccineTable({ openVaccineDialog }: VaccineTableProps) {
             label: 'Delete',
             icon: <MdDelete size={24} />,
             onClick: () => {
-              // TODO: Add a confirmation dialog.
-              try {
-                dispatch(deleteVaccineThunk(info.cell.row.original.id));
-              } catch (err: any) {}
-
-              showSuccessMessage('Vaccine Deleted Successfully.');
-              dispatch(getVaccineThunk());
+              openVaccineDeleteDialog(info.cell.row.original);
             },
           },
         ]}
@@ -105,7 +102,7 @@ function VaccineTable({ openVaccineDialog }: VaccineTableProps) {
         cell: (info) => <div className="text-right">{info.getValue()}</div>,
       }),
       columnHelper.accessor('isMandatory', {
-        header: 'isMandatory',
+        header: 'Mandatory?',
         cell: (info) =>
           info.getValue() ? (
             <VscPass color="green" />
