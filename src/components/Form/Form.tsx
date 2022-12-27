@@ -1,5 +1,11 @@
 import { FormikProps } from 'formik';
-import { Checkbox, FormControlLabel, TextField } from '@mui/material';
+import {
+  Select,
+  Checkbox,
+  MenuItem,
+  TextField,
+  FormControlLabel,
+} from '@mui/material';
 
 import Button from '../Button';
 
@@ -7,9 +13,10 @@ export type FormField = {
   id: string;
   type?: string;
   label: string;
-  renderer?: 'text' | 'textArea' | 'checkbox';
-  placeholder?: string;
   errorLabel?: string;
+  placeholder?: string;
+  dropDownOptions?: { value: string; label: string }[];
+  renderer?: 'text' | 'textArea' | 'checkbox' | 'dropdown';
 };
 
 export type FormikInstanceType = FormikProps<any>;
@@ -44,7 +51,15 @@ export default function Form({
           <h2 className="mb-10 text-center text-3xl font-bold">{title}</h2>
         )}
         {fields.map(
-          ({ id, renderer = 'text', label, placeholder, errorLabel, type }) => (
+          ({
+            id,
+            renderer = 'text',
+            label,
+            placeholder,
+            errorLabel,
+            type,
+            dropDownOptions = [],
+          }) => (
             <div key={id} className="flex flex-col gap-y-3">
               {renderer === 'text' &&
                 renderTextField({
@@ -65,6 +80,22 @@ export default function Form({
                 })}
               {renderer === 'checkbox' &&
                 renderCheckBox({ formikInstance, id, label })}
+              {renderer === 'dropdown' && (
+                <Select
+                  id={id}
+                  name={id}
+                  variant="outlined"
+                  value={formikInstance.values[id]}
+                  onBlur={formikInstance.handleBlur}
+                  onChange={formikInstance.handleChange}
+                >
+                  {dropDownOptions.map((option) => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </Select>
+              )}
             </div>
           ),
         )}

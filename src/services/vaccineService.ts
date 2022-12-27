@@ -5,7 +5,7 @@ import {
   Vaccine,
   PatchVaccinePayload,
   CreateVaccinePayload,
-} from '../interfaces/vaccine.interface';
+} from '../interfaces/vaccineInterface';
 
 import { VACCINES, VACCINES_ID } from '../constants/endpoints.constants';
 

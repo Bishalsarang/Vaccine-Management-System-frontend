@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 import { VaccineState } from './reducers/vaccineReducer';
 
-import { CreateVaccinePayload, Vaccine } from '../interfaces/vaccine.interface';
+import { CreateVaccinePayload, Vaccine } from '../interfaces/vaccineInterface';
 
 import {
   getVaccines,

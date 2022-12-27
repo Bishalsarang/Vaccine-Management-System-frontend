@@ -1,4 +1,4 @@
-import { Vaccine } from '../../interfaces/vaccine.interface';
+import { Vaccine } from '../../interfaces/vaccineInterface';
 
 export interface VaccineState {
   isLoading: boolean;

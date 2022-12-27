@@ -11,21 +11,40 @@ import {
 import { MdEdit, MdDelete } from 'react-icons/md';
 import { VscError, VscPass } from 'react-icons/vsc';
 
+import Chip from '../Chip';
 import SkeletonWrapper from '../../components/Skeleton';
 import ThreeDotMenu from '../../components/ThreeDotMenu';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
 import { deleteVaccineThunk, getVaccineThunk } from '../../slices/vaccineSlice';
-import { Vaccine } from '../../interfaces/vaccine.interface';
+import { Vaccine, VaccineStage } from '../../interfaces/vaccineInterface';
 
 import { formateDateToShort } from '../../utils/date';
 import { showSuccessMessage } from '../../utils/toast';
+import { VACCINE_STAGES } from '../../constants/base.constants';
 
 const columnHelper = createColumnHelper<Vaccine>();
 
 interface VaccineTableProps {
   openVaccineDialog: () => void;
+}
+
+function renderStage(stage: VaccineStage) {
+  switch (stage) {
+    case VACCINE_STAGES.research:
+      return <Chip label={VACCINE_STAGES.research} color="info" />;
+    case VACCINE_STAGES.preclinical:
+      return <Chip label={VACCINE_STAGES.preclinical} color="primary" />;
+    case VACCINE_STAGES.clinical:
+      return <Chip label={VACCINE_STAGES.clinical} color="error" />;
+    case VACCINE_STAGES.regulatory:
+      return <Chip label={VACCINE_STAGES.regulatory} color="success" />;
+    case VACCINE_STAGES.manufacturing:
+      return <Chip label={VACCINE_STAGES.manufacturing} color="secondary" />;
+    default:
+      return <Chip label={VACCINE_STAGES.research} />;
+  }
 }
 
 function VaccineTable({ openVaccineDialog }: VaccineTableProps) {
@@ -62,7 +81,7 @@ function VaccineTable({ openVaccineDialog }: VaccineTableProps) {
         ]}
       />
     ),
-    [openVaccineDialog],
+    [openVaccineDialog, dispatch],
   );
 
   useEffect(() => {
@@ -74,11 +93,15 @@ function VaccineTable({ openVaccineDialog }: VaccineTableProps) {
       columnHelper.accessor('name', {
         header: 'Name',
       }),
+      columnHelper.accessor('stage', {
+        header: 'Stage',
+        cell: (info) => renderStage(info.getValue()),
+      }),
       columnHelper.accessor('description', {
         header: 'Description',
       }),
       columnHelper.accessor('numberOfDoses', {
-        header: 'Number of Doses',
+        header: '# Doses',
         cell: (info) => <div className="text-right">{info.getValue()}</div>,
       }),
       columnHelper.accessor('isMandatory', {
