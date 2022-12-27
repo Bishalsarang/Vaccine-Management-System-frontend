@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { useFormik } from 'formik';
+import { useFormik, FormikProps } from 'formik';
 
 import Form from '../../components/Form';
 
@@ -15,6 +15,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import Banner from '../../components/Banner';
 
 import { showErrorMessage, showSuccessMessage } from '../../utils/toast';
+import { LoginPayload } from '../../interfaces/auth.interface';
 
 export function LoginPage() {
   const { isLoading, accessToken } = useAppSelector((state) => state.user);
@@ -22,7 +23,7 @@ export function LoginPage() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const formik = useFormik({
+  const formik: FormikProps<LoginPayload> = useFormik({
     initialValues: {
       username: '',
       password: '',
