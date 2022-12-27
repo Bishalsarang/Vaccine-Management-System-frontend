@@ -28,5 +28,5 @@ export const VACCINE_STAGES = {
   regulatory: 'Approval',
   clinical: 'Clinical Trials',
   preclinical: 'Preclinical Testing',
-  manufacturing: 'Manufacturing and distribution',
+  manufacturing: 'Manufacturing',
 };

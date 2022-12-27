@@ -8,7 +8,7 @@ interface SidebarProps {
 
 export default function Sidebar({ navigationItems = [] }: SidebarProps) {
   return (
-    <div className="w-61 h-full bg-slate-900 p-4">
+    <div className="h-full w-96  bg-slate-900 p-4">
       <div className="mb-4 flex items-center">
         <span className="text-center text-2xl font-bold text-blue-400 shadow-xl">
           Vaccine Management System

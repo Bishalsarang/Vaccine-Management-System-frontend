@@ -1,17 +1,23 @@
 import React, { useState } from 'react';
 
 import { Add as AddIcon } from '@mui/icons-material';
+import { Card, CardContent, Typography } from '@mui/material';
 
+import PieChartWrapper from '../../components/PieChart';
+import VaccineTable from '../../components/VaccineTable';
+import WordCloudWrapper from '../../components/WordCloud';
 import VaccineDialog from '../../components/VaccineDialog';
 import FabButton from '../../components/FabButton/FabButton';
-
-import VaccineTable from '../../components/VaccineTable';
 import ConfirmationDialog from '../../components/ConfirmationDialog';
-import { Vaccine } from '../../interfaces/vaccineInterface';
-import { showErrorMessage, showSuccessMessage } from '../../utils/toast';
-import { useAppDispatch } from '../../hooks';
-import { deleteVaccineThunk, getVaccineThunk } from '../../slices/vaccineSlice';
+
 import { IdParams } from '../../interfaces/commonInterface';
+import { Vaccine } from '../../interfaces/vaccineInterface';
+
+import { useAppDispatch } from '../../hooks';
+
+import { deleteVaccineThunk, getVaccineThunk } from '../../slices/vaccineSlice';
+
+import { showErrorMessage, showSuccessMessage } from '../../utils/toast';
 
 function VaccinePage() {
   const [isVaccineDialogOpen, setIsVaccineDialogOpen] = useState(false);
@@ -64,6 +70,61 @@ function VaccinePage() {
 
   return (
     <>
+      <div className="grid grid-cols-3">
+        <Card className="flex max-w-sm justify-center">
+          <CardContent>
+            <Typography className="text-center" component="div" variant="h5">
+              Summary
+            </Typography>
+
+            <Typography
+              component="div"
+              variant="subtitle1"
+              color="text.secondary"
+            >
+              Total Vaccines: <span>{100}</span>
+            </Typography>
+            <Typography
+              component="div"
+              variant="subtitle1"
+              color="text.secondary"
+            >
+              Mandatory Vaccines: <span>{40}</span>
+            </Typography>
+            <Typography
+              component="div"
+              variant="subtitle1"
+              color="text.secondary"
+            >
+              Non Mandatory Vaccines: <span>{60}</span>
+            </Typography>
+            <Typography
+              component="div"
+              variant="subtitle1"
+              color="text.secondary"
+            >
+              Average Dose: <span>{12}</span>
+            </Typography>
+          </CardContent>
+        </Card>
+        <Card className="flex max-w-sm items-start justify-center">
+          <CardContent>
+            <Typography className="text-center" component="div" variant="h5">
+              Vaccine Stages
+            </Typography>
+            <PieChartWrapper></PieChartWrapper>
+          </CardContent>
+        </Card>
+
+        <Card className="flex max-w-sm items-start justify-center">
+          <CardContent>
+            <Typography className="text-center" component="div" variant="h5">
+              Allergies/ SideEffects
+            </Typography>
+            <WordCloudWrapper />
+          </CardContent>
+        </Card>
+      </div>
       <VaccineDialog
         isOpen={isVaccineDialogOpen}
         onClose={closeVaccineDialog}
