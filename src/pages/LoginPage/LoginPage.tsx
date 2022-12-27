@@ -11,7 +11,7 @@ import { loginUser } from '../../slices/userSlice';
 
 import { LOGIN_FORM } from '../../constants/lang.constants';
 
-import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import Banner from '../../components/Banner';
 
 import { showErrorMessage, showSuccessMessage } from '../../utils/toast';

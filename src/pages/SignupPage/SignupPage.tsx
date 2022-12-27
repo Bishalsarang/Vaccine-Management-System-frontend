@@ -11,7 +11,7 @@ import { SIGNUP_FORM } from '../../constants/lang.constants';
 
 import { signupUser } from '../../slices/userSlice';
 
-import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import Banner from '../../components/Banner';
 
 export function SignupPage() {

@@ -7,11 +7,10 @@ import {
 import React, { useEffect, useState } from 'react';
 import { AiFillPlusCircle } from 'react-icons/ai';
 import { VscError, VscPass } from 'react-icons/vsc';
-import { BsSkipEndBtnFill } from 'react-icons/bs';
 import { MdEdit, MdDelete } from 'react-icons/md';
 import Skeleton from '../../components/Skeleton';
 import VaccineDialog from '../../components/VaccineDialog';
-import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 
 import { Vaccine } from '../../interfaces/vaccine.interface';
 import { getVaccineThunk } from '../../slices/vaccineSlice';
