@@ -11,7 +11,7 @@ import {
 import { MdEdit, MdDelete } from 'react-icons/md';
 import { VscError, VscPass } from 'react-icons/vsc';
 
-import Skeleton from '../../components/Skeleton';
+import SkeletonWrapper from '../../components/Skeleton';
 import ThreeDotMenu from '../../components/ThreeDotMenu';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
@@ -32,7 +32,7 @@ function VaccineTable({ openVaccineDialog }: VaccineTableProps) {
   const { vaccines = [], isLoading } = useAppSelector((state) => state.vaccine);
   const dispatch = useAppDispatch();
 
-  const skeleton = useCallback(() => <Skeleton height={'20px'} />, []);
+  const skeleton = useCallback(() => <SkeletonWrapper height={'20px'} />, []);
   const threeDotMenu = useCallback(
     (info: CellContext<Vaccine, unknown>) => (
       <ThreeDotMenu
@@ -41,7 +41,6 @@ function VaccineTable({ openVaccineDialog }: VaccineTableProps) {
             label: 'Edit',
             icon: <MdEdit size={24} />,
             onClick: () => {
-              // TODO: Open the dialog with these values
               openVaccineDialog();
 
               console.log('Open Edit', info.cell.row.original);

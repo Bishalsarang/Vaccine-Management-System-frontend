@@ -1,3 +1,3 @@
-import { Skeleton } from './Skeleton';
+import { SkeletonWrapper } from './Skeleton';
 
-export default Skeleton;
+export default SkeletonWrapper;

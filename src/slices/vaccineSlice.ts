@@ -5,13 +5,12 @@ import { VaccineState } from './reducers/vaccineReducer';
 import { CreateVaccinePayload, Vaccine } from '../interfaces/vaccine.interface';
 
 import {
+  getVaccines,
   createVaccine,
   deleteVaccine,
-  getVaccines,
 } from '../services/vaccineService';
 
 const initialState: VaccineState = {
-  vaccine: null,
   error: null,
   vaccines: [],
   isLoading: false,
@@ -52,6 +51,7 @@ export const deleteVaccineThunk = createAsyncThunk<object, number>(
     }
   },
 );
+
 const vaccineSlice = createSlice({
   name: 'vaccine',
   initialState,
