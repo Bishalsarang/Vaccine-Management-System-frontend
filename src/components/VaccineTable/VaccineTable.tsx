@@ -78,7 +78,7 @@ function VaccineTable({
         ]}
       />
     ),
-    [openVaccineDialog, dispatch],
+    [openVaccineDialog, openVaccineDeleteDialog],
   );
 
   useEffect(() => {
@@ -148,15 +148,15 @@ function VaccineTable({
   });
 
   return (
-    <div className="h-4/5 overflow-auto rounded-xl p-2">
-      <table className="w-full table-auto shadow-md">
+    <div className="overflow-auto pt-4">
+      <table className="w-full shadow-md">
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
                 <th
                   key={header.id}
-                  className="sticky top-0 bg-gray-700 p-4 text-left text-white"
+                  className="sticky top-0 bg-gray-700 p-3 text-left text-white"
                 >
                   {header.isPlaceholder
                     ? null
