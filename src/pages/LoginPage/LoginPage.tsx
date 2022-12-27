@@ -1,8 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { toast } from 'react-toastify';
-
 import { useFormik } from 'formik';
 
 import Form from '../../components/Form';
@@ -15,6 +13,8 @@ import { LOGIN_FORM } from '../../constants/lang.constants';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import Banner from '../../components/Banner';
+
+import { showErrorMessage, showSuccessMessage } from '../../utils/toast';
 
 export function LoginPage() {
   const { isLoading, accessToken } = useAppSelector((state) => state.user);
@@ -37,20 +37,11 @@ export function LoginPage() {
       );
 
       if ('error' in data) {
-        toast.error(LOGIN_FORM.MESSAGES.FAIL, {
-          autoClose: 1000,
-          hideProgressBar: true,
-          position: toast.POSITION.BOTTOM_RIGHT,
-        });
-
+        showErrorMessage(LOGIN_FORM.MESSAGES.FAIL);
         return;
       }
 
-      toast.success(LOGIN_FORM.MESSAGES.SUCESS, {
-        autoClose: 1000,
-        hideProgressBar: true,
-        position: toast.POSITION.BOTTOM_RIGHT,
-      });
+      showSuccessMessage(LOGIN_FORM.MESSAGES.SUCESS);
     },
   });
 
