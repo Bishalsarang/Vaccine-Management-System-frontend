@@ -16,10 +16,11 @@ import ThreeDotMenu from '../../components/ThreeDotMenu';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
-import { getVaccineThunk } from '../../slices/vaccineSlice';
+import { deleteVaccineThunk, getVaccineThunk } from '../../slices/vaccineSlice';
 import { Vaccine } from '../../interfaces/vaccine.interface';
 
 import { formateDateToShort } from '../../utils/date';
+import { showSuccessMessage } from '../../utils/toast';
 
 const columnHelper = createColumnHelper<Vaccine>();
 
@@ -49,7 +50,15 @@ function VaccineTable({ openVaccineDialog }: VaccineTableProps) {
           {
             label: 'Delete',
             icon: <MdDelete size={24} />,
-            onClick: () => console.log('Open Delete'),
+            onClick: () => {
+              // TODO: Add a confirmation dialog.
+              try {
+                dispatch(deleteVaccineThunk(info.cell.row.original.id));
+              } catch (err: any) {}
+
+              showSuccessMessage('Vaccine Deleted Successfully.');
+              dispatch(getVaccineThunk());
+            },
           },
         ]}
       />

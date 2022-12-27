@@ -4,7 +4,11 @@ import { VaccineState } from './reducers/vaccineReducer';
 
 import { CreateVaccinePayload, Vaccine } from '../interfaces/vaccine.interface';
 
-import { createVaccine, getVaccines } from '../services/vaccineService';
+import {
+  createVaccine,
+  deleteVaccine,
+  getVaccines,
+} from '../services/vaccineService';
 
 const initialState: VaccineState = {
   vaccine: null,
@@ -37,6 +41,17 @@ export const getVaccineThunk = createAsyncThunk<Vaccine[], void>(
   },
 );
 
+export const deleteVaccineThunk = createAsyncThunk<object, number>(
+  'vaccine/delete',
+  async (id, { rejectWithValue }) => {
+    try {
+      const data = await deleteVaccine(id);
+      return data;
+    } catch (error: any) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
 const vaccineSlice = createSlice({
   name: 'vaccine',
   initialState,
@@ -61,6 +76,17 @@ const vaccineSlice = createSlice({
       state.vaccines = payload;
     },
     [getVaccineThunk.rejected as any]: (state, { payload }) => {
+      state.isLoading = false;
+      state.error = payload;
+    },
+    [deleteVaccineThunk.pending as any]: (state) => {
+      state.isLoading = true;
+    },
+    [deleteVaccineThunk.fulfilled as any]: (state, { payload }) => {
+      state.isLoading = false;
+      state.vaccines = payload;
+    },
+    [deleteVaccineThunk.rejected as any]: (state, { payload }) => {
       state.isLoading = false;
       state.error = payload;
     },

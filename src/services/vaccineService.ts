@@ -59,7 +59,7 @@ export async function updateVaccine(
  * @param {string} id - The ID of the vaccine to delete.
  * @returns {Promise<any>} A promise that resolves to the response from the server.
  */
-export async function deleteVaccine(id: string): Promise<any> {
+export async function deleteVaccine(id: number): Promise<any> {
   const url = interpolate(VACCINES_ID, { id });
 
   const response = await axiosInstance.delete(url);
