@@ -158,8 +158,8 @@ function VaccineTable({
   });
 
   return (
-    <div className="mt-4 h-[calc(100vh-350px)] overflow-auto ">
-      <table className="w-full shadow-md">
+    <div className="mt-4  h-[calc(100vh-340px)] overflow-auto shadow-lg">
+      <table className="w-full">
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
