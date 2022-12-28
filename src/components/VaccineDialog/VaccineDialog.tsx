@@ -1,3 +1,5 @@
+import { useFormik } from 'formik';
+
 import { useAppDispatch } from '../../hooks';
 import Dialog from '../Dialog';
 import Form, { FormField } from '../../components/Form';
@@ -13,8 +15,7 @@ import {
   PatchVaccinePayload,
   CreateVaccinePayload,
 } from '../../interfaces/vaccineInterface';
-import { useFormik } from 'formik';
-import UploadButton from '../UploadButton';
+import AutoComplete from '../AutoComplete';
 
 interface VaccineDialogProps {
   isOpen?: boolean;
@@ -131,7 +132,7 @@ const VaccineDialog = ({
     >
       <Form hasBorder={false} fields={FIELDS} formikInstance={formik}></Form>
 
-      <UploadButton />
+      <AutoComplete />
     </Dialog>
   );
 };
