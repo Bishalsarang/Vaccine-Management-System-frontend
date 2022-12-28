@@ -121,12 +121,12 @@ const VaccineDialog = ({
   ];
   return (
     <Dialog
-      isOpen={isOpen}
+      open={isOpen}
+      heading="Add vacccine"
       onClose={() => {
         formik.resetForm();
         onClose && onClose();
       }}
-      heading="Add vacccine"
       onAccept={formik.handleSubmit}
     >
       <Form hasBorder={false} fields={FIELDS} formikInstance={formik}></Form>

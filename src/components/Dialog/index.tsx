@@ -1,3 +1,3 @@
-import Dialog from './Dialog';
+import { DialogWrapper } from './Dialog';
 
-export default Dialog;
+export default DialogWrapper;

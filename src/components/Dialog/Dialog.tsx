@@ -1,8 +1,15 @@
-import Modal from 'react-modal';
+import {
+  Dialog,
+  DialogTitle,
+  DialogProps,
+  DialogActions,
+  DialogContent,
+} from '@mui/material';
+
 import Button from '../Button';
 
-interface DialogProps {
-  isOpen: boolean;
+interface DialogWrapperProps extends DialogProps {
+  open: boolean;
   heading: string;
   onClose?: () => void;
   onAccept?: () => void;
@@ -11,60 +18,33 @@ interface DialogProps {
   children: React.ReactNode;
 }
 
-function Dialog({
+export function DialogWrapper({
   heading,
   onClose,
   onAccept,
   children,
-  isOpen = false,
+  open = false,
   cancelButtonText = 'Cancel',
   acceptButtonText = 'Accept',
-}: DialogProps) {
+  ...rest
+}: DialogWrapperProps) {
   return (
-    <Modal
-      ariaHideApp={false}
-      isOpen={isOpen}
-      onAfterClose={onClose}
-      shouldCloseOnOverlayClick
-      style={{
-        content: {
-          top: '50%',
-          left: '50%',
-          padding: '0',
-          right: 'auto',
-          bottom: 'auto',
-          minWidth: '50vw',
-          transform: 'translate(-50%, -50%)',
-        },
-      }}
-    >
-      <div className="rounded-md shadow-lg">
-        <div className="rounded-md bg-white px-4 py-5">
-          <div className="flex items-center justify-between pb-3">
-            <h3 className="text-lg font-medium leading-6 text-gray-900">
-              {heading}
-            </h3>
-            <button
-              className="text-gray-500 transition duration-150 hover:text-gray-700 focus:underline focus:outline-none"
-              onClick={onClose}
-            >
-              Close
-            </button>
-          </div>
-          {children}
-        </div>
-        <div className="gap-3 bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-          <Button color="primary" label={acceptButtonText} onClick={onAccept} />
-          <Button
-            color="secondary"
-            variant="outlined"
-            onClick={onClose}
-            label={cancelButtonText}
-          />
-        </div>
-      </div>
-    </Modal>
+    <Dialog fullWidth open={open} onClose={onClose} {...rest}>
+      <DialogTitle>{heading}</DialogTitle>
+      <DialogContent>{children}</DialogContent>
+      <DialogActions>
+        <Button
+          color="secondary"
+          variant="outlined"
+          onClick={onClose}
+          label={cancelButtonText}
+        ></Button>
+        <Button
+          color="primary"
+          onClick={onAccept}
+          label={acceptButtonText}
+        ></Button>
+      </DialogActions>
+    </Dialog>
   );
 }
-
-export default Dialog;
