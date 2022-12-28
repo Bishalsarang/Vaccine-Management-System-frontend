@@ -14,6 +14,7 @@ import {
   CreateVaccinePayload,
 } from '../../interfaces/vaccineInterface';
 import { useFormik } from 'formik';
+import UploadButton from '../UploadButton';
 
 interface VaccineDialogProps {
   isOpen?: boolean;
@@ -57,7 +58,6 @@ const VaccineDialog = ({
     },
   });
 
-  formik.dirty = true;
   const FIELDS: FormField[] = [
     {
       type: 'text',
@@ -69,6 +69,14 @@ const VaccineDialog = ({
     },
     {
       type: 'text',
+      renderer: 'text',
+      id: 'image',
+      label: 'Image*',
+      errorLabel: formik.errors.stage,
+      placeholder: 'Enter Stage',
+    },
+    {
+      type: 'file',
       renderer: 'dropdown',
       id: 'stage',
       label: 'Stage*',
@@ -76,7 +84,6 @@ const VaccineDialog = ({
         label: stage,
         value: stage,
       })),
-
       errorLabel: formik.errors.stage,
       placeholder: 'Enter Stage',
     },
@@ -123,6 +130,8 @@ const VaccineDialog = ({
       onAccept={formik.handleSubmit}
     >
       <Form hasBorder={false} fields={FIELDS} formikInstance={formik}></Form>
+
+      <UploadButton />
     </Dialog>
   );
 };
