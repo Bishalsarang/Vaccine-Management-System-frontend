@@ -47,7 +47,6 @@ export const loginUser = createAsyncThunk<AuthenticationToken, LoginPayload>(
 
       return data;
     } catch (error: any) {
-      // return custom error message from API if any
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message);
       } else {

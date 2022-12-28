@@ -30,15 +30,15 @@ export function LoginPage() {
     },
     validationSchema: userLoginSchema,
     onSubmit: async () => {
-      const data = await dispatch(
+      const response = await dispatch(
         loginUser({
           username: formik.values.username,
           password: formik.values.password,
         }),
       );
 
-      if ('error' in data) {
-        showErrorMessage(LOGIN_FORM.MESSAGES.FAIL);
+      if ('error' in response) {
+        showErrorMessage('' + response.payload || LOGIN_FORM.MESSAGES.FAIL);
         return;
       }
 

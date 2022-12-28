@@ -14,6 +14,8 @@ import { signupUser } from '../../slices/userSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import Banner from '../../components/Banner';
 
+import { showErrorMessage, showSuccessMessage } from '../../utils/toast';
+
 export function SignupPage() {
   const { loading: isLoading, userInfo } = useAppSelector(
     (state: any) => state.user,
@@ -34,7 +36,7 @@ export function SignupPage() {
     validationSchema: userSignupSchema,
     onSubmit: async () => {
       const { username, password, firstname, lastname, email } = formik.values;
-      await dispatch(
+      const response = await dispatch(
         signupUser({
           email,
           username,
@@ -43,6 +45,13 @@ export function SignupPage() {
           firstname,
         }),
       );
+
+      if ('error' in response) {
+        showErrorMessage('' + response.payload || SIGNUP_FORM.MESSAGES.FAIL);
+        return;
+      }
+
+      showSuccessMessage(SIGNUP_FORM.MESSAGES.SUCESS);
     },
   });
 

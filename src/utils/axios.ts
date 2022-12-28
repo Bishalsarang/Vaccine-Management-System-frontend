@@ -1,7 +1,9 @@
 import { StoreType } from './../store';
+import { showErrorMessage } from './toast';
 import axios, { AxiosRequestConfig } from 'axios';
 
 import { API_BASE_URL } from '../config';
+import { logoutUser } from '../slices/userSlice';
 
 // Since directly importing store.ts cause circular dependency: store.ts > slices/vaccineSlice.ts > services/vaccineService.ts > utils/axios.ts
 // We can follow this pattern: https://redux.js.org/faq/code-structure#how-can-i-use-the-redux-store-in-non-component-files
@@ -54,6 +56,10 @@ axiosInstance.interceptors.response.use(
     }
 
     // If the maximum number of retries has been reached, redirect to the login page
+    showErrorMessage('The token has expired. Please try loggin in', {
+      toastId: 'axios-response-error',
+    });
+    store.dispatch(logoutUser());
 
     return Promise.reject(error);
   },
