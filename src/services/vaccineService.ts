@@ -7,7 +7,11 @@ import {
   CreateVaccinePayload,
 } from '../interfaces/vaccineInterface';
 
-import { VACCINES, VACCINES_ID } from '../constants/endpoints.constants';
+import {
+  VACCINES,
+  VACCINES_ID,
+  VACCINES_STAGES,
+} from '../constants/endpoints.constants';
 
 //TODO: Convert any type to appropriate interface.
 
@@ -63,6 +67,24 @@ export async function deleteVaccine(id: number): Promise<any> {
   const url = interpolate(VACCINES_ID, { id });
 
   const response = await axiosInstance.delete(url);
+
+  return response;
+}
+
+export interface VaccineStageCount {
+  name: string;
+  count: number;
+}
+
+/**
+ * Gets the vaccine stages
+ *
+ * @returns  A promise that resolves to the response from the server.
+ */
+export async function getVaccineStages(): Promise<VaccineStageCount[]> {
+  const response = await axiosInstance.get<any, VaccineStageCount[]>(
+    VACCINES_STAGES,
+  );
 
   return response;
 }

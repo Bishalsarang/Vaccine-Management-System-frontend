@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { Add as AddIcon } from '@mui/icons-material';
 import { Card, CardContent, Typography } from '@mui/material';
 
-import PieChartWrapper from '../../components/PieChart';
 import VaccineTable from '../../components/VaccineTable';
 import WordCloudWrapper from '../../components/WordCloud';
 import VaccineDialog from '../../components/VaccineDialog';
@@ -18,6 +17,7 @@ import { useAppDispatch } from '../../hooks';
 import { deleteVaccineThunk, getVaccineThunk } from '../../slices/vaccineSlice';
 
 import { showErrorMessage, showSuccessMessage } from '../../utils/toast';
+import VaccineStageCard from '../../components/VaccineStageCard/VaccineStageCard';
 
 function VaccinePage() {
   const [isVaccineDialogOpen, setIsVaccineDialogOpen] = useState(false);
@@ -107,14 +107,7 @@ function VaccinePage() {
             </Typography>
           </CardContent>
         </Card>
-        <Card className="flex max-w-sm items-start justify-center">
-          <CardContent>
-            <Typography className="text-center" component="div" variant="h5">
-              Vaccine Stages
-            </Typography>
-            <PieChartWrapper></PieChartWrapper>
-          </CardContent>
-        </Card>
+        {<VaccineStageCard />}
 
         <Card className="flex max-w-sm items-start justify-center">
           <CardContent>
