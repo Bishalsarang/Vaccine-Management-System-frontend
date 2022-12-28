@@ -30,9 +30,9 @@ const VaccineDialog = ({ isOpen = false, onClose }: VaccineDialogProps) => {
     validationSchema: vaccineSchema,
     onSubmit: async () => {
       await dispatch(createVaccineThunk(formik.values as CreateVaccinePayload));
-      dispatch(getVaccineThunk());
       onClose();
       formik.resetForm();
+      dispatch(getVaccineThunk());
     },
   });
 
