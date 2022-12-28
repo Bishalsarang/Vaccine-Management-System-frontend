@@ -5,6 +5,9 @@ import {
   MenuItem,
   TextField,
   FormControlLabel,
+  FormControl,
+  FormHelperText,
+  InputLabel,
 } from '@mui/material';
 
 import Button from '../Button';
@@ -80,22 +83,8 @@ export default function Form({
                 })}
               {renderer === 'checkbox' &&
                 renderCheckBox({ formikInstance, id, label })}
-              {renderer === 'dropdown' && (
-                <Select
-                  id={id}
-                  name={id}
-                  variant="outlined"
-                  value={formikInstance.values[id]}
-                  onBlur={formikInstance.handleBlur}
-                  onChange={formikInstance.handleChange}
-                >
-                  {dropDownOptions.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
-                    </MenuItem>
-                  ))}
-                </Select>
-              )}
+              {renderer === 'dropdown' &&
+                renderDropDown({ id, label, formikInstance, dropDownOptions })}
             </div>
           ),
         )}
@@ -110,6 +99,39 @@ export default function Form({
         )}
       </div>
     </form>
+  );
+}
+
+function renderDropDown({
+  id,
+  label,
+  formikInstance,
+  dropDownOptions,
+}: {
+  id: string;
+  label: string;
+  formikInstance: FormikInstanceType;
+  dropDownOptions: { value: string; label: string }[];
+}) {
+  return (
+    <FormControl>
+      <InputLabel id={id}>{label}</InputLabel>
+      <Select
+        id={id}
+        name={id}
+        variant="standard"
+        label={label}
+        value={formikInstance.values[id]}
+        onBlur={formikInstance.handleBlur}
+        onChange={formikInstance.handleChange}
+      >
+        {dropDownOptions.map((option) => (
+          <MenuItem key={option.value} value={option.value}>
+            {option.label}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
   );
 }
 
