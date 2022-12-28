@@ -2,12 +2,17 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 import { VaccineState } from './reducers/vaccineReducer';
 
-import { CreateVaccinePayload, Vaccine } from '../interfaces/vaccineInterface';
+import {
+  Vaccine,
+  PatchVaccinePayload,
+  CreateVaccinePayload,
+} from '../interfaces/vaccineInterface';
 
 import {
   getVaccines,
   createVaccine,
   deleteVaccine,
+  updateVaccine,
 } from '../services/vaccineService';
 
 const initialState: VaccineState = {
@@ -16,12 +21,25 @@ const initialState: VaccineState = {
   isLoading: false,
 };
 
+/* Creating a thunk that will be used to create a vaccine. */
 export const createVaccineThunk = createAsyncThunk<
   Vaccine,
   CreateVaccinePayload
 >('vaccine/create', async (payload, { rejectWithValue }) => {
   try {
     const data = await createVaccine(payload);
+    return data;
+  } catch (error: any) {
+    return rejectWithValue(error.message);
+  }
+});
+
+export const updateVaccineThunk = createAsyncThunk<
+  Vaccine,
+  PatchVaccinePayload
+>('vaccine/update', async (payload, { rejectWithValue }) => {
+  try {
+    const data = await updateVaccine(payload.id, payload);
     return data;
   } catch (error: any) {
     return rejectWithValue(error.message);

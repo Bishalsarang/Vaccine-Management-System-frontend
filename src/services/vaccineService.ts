@@ -47,12 +47,12 @@ export async function createVaccine(
  * @returns {Promise<any>} A promise that resolves to the updated vaccine.
  */
 export async function updateVaccine(
+  id: number,
   patchPayload: PatchVaccinePayload,
 ): Promise<Vaccine> {
-  const vaccines = await axiosInstance.patch<any, Vaccine>(
-    VACCINES,
-    patchPayload,
-  );
+  const url = interpolate(VACCINES_ID, { id });
+
+  const vaccines = await axiosInstance.patch<any, Vaccine>(url, patchPayload);
 
   return vaccines;
 }

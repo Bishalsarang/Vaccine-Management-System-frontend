@@ -1,41 +1,63 @@
-import { FormikProps, useFormik } from 'formik';
-
 import { useAppDispatch } from '../../hooks';
-
 import Dialog from '../Dialog';
 import Form, { FormField } from '../../components/Form';
 
 import { vaccineSchema } from '../../schemas/vaccineSchema';
-import { createVaccineThunk, getVaccineThunk } from '../../slices/vaccineSlice';
+import {
+  getVaccineThunk,
+  createVaccineThunk,
+  updateVaccineThunk,
+} from '../../slices/vaccineSlice';
 import { VACCINE_STAGES } from '../../constants/base.constants';
-import { CreateVaccinePayload } from '../../interfaces/vaccineInterface';
+import {
+  PatchVaccinePayload,
+  CreateVaccinePayload,
+} from '../../interfaces/vaccineInterface';
+import { useFormik } from 'formik';
 
 interface VaccineDialogProps {
   isOpen?: boolean;
+  mode: 'create' | 'edit' | 'delete';
+  data: CreateVaccinePayload | PatchVaccinePayload;
   onClose: () => void;
 }
 
-const VaccineDialog = ({ isOpen = false, onClose }: VaccineDialogProps) => {
+const VaccineDialog = ({
+  isOpen = false,
+  mode = 'create',
+  onClose,
+  data = {
+    name: '',
+    companyName: '',
+    description: '',
+    numberOfDoses: 1,
+    isMandatory: false,
+    stage: '',
+  },
+}: VaccineDialogProps) => {
   const dispatch = useAppDispatch();
 
   const formik = useFormik({
-    initialValues: {
-      name: '',
-      companyName: '',
-      description: '',
-      numberOfDoses: 1,
-      isMandatory: false,
-      stage: VACCINE_STAGES.research,
-    },
+    initialValues: data,
     validationSchema: vaccineSchema,
     onSubmit: async () => {
-      await dispatch(createVaccineThunk(formik.values as CreateVaccinePayload));
+      if (mode === 'create') {
+        await dispatch(
+          createVaccineThunk(formik.values as CreateVaccinePayload),
+        );
+      } else {
+        await dispatch(
+          updateVaccineThunk(formik.values as PatchVaccinePayload),
+        );
+      }
+
       onClose();
       formik.resetForm();
       dispatch(getVaccineThunk());
     },
   });
 
+  formik.dirty = true;
   const FIELDS: FormField[] = [
     {
       type: 'text',

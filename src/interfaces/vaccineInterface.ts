@@ -1,17 +1,34 @@
 import { VACCINE_STAGES } from '../constants/base.constants';
 
-// keyof operator extracts the keys of the VACCINE_STAGES object as a union of string literals.
-export type VaccineStage = keyof typeof VACCINE_STAGES;
+export type VaccineStage = typeof VACCINE_STAGES[keyof typeof VACCINE_STAGES];
 
+/**
+ * CreateVaccinePayload interface.
+ *
+ * @property {string} [name] - The name of the vaccine.
+ * @property {string} [companyName] - The name of the company that manufactures the vaccine.
+ * @property {string} [description] - A description of the vaccine.
+ * @property {number} [numberOfDoses] - The number of doses required for the vaccine.
+ * @property {boolean} [isMandatory] - Whether the vaccine is mandatory or not.
+ * @property {string} [stage] - The stage of development of the vaccine.
+ */
 export interface CreateVaccinePayload {
   name: string;
   companyName?: string;
-  description: string;
+  description?: string;
   numberOfDoses: number;
   isMandatory: boolean;
-  stage: string & VaccineStage;
+  stage: VaccineStage;
 }
 
+/**
+ * CreateVaccinePayload interface.
+ *
+ * @property {number} [id] - The id of the Vaccine
+ * @property {string} [createdAt] - The date when vaccine is created.
+ * @property {string} [updatedAt] - The date when vaccine is updated.
+ * @property {number} [deletedAt] - The date when vaccine is deleted.
+ */
 export interface Vaccine extends CreateVaccinePayload {
   id: number;
   createdAt: string;
@@ -19,4 +36,6 @@ export interface Vaccine extends CreateVaccinePayload {
   deletedAt: string;
 }
 
-export type PatchVaccinePayload = Partial<CreateVaccinePayload>;
+export interface PatchVaccinePayload extends Partial<CreateVaccinePayload> {
+  id: number;
+}

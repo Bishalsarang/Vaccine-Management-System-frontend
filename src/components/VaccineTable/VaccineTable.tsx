@@ -18,15 +18,20 @@ import ThreeDotMenu from '../../components/ThreeDotMenu';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
 import { getVaccineThunk } from '../../slices/vaccineSlice';
-import { Vaccine, VaccineStage } from '../../interfaces/vaccineInterface';
+import {
+  CreateVaccinePayload,
+  Vaccine,
+  VaccineStage,
+} from '../../interfaces/vaccineInterface';
 
 import { formateDateToShort } from '../../utils/date';
 import { VACCINE_STAGES } from '../../constants/base.constants';
+import { DialogOptions } from '../../interfaces/commonInterface';
 
 const columnHelper = createColumnHelper<Vaccine>();
 
 interface VaccineTableProps {
-  openVaccineDialog: () => void;
+  openVaccineDialog: (options: DialogOptions<CreateVaccinePayload>) => void;
   openVaccineDeleteDialog: (vaccine: Vaccine) => void;
 }
 
@@ -63,9 +68,11 @@ function VaccineTable({
             label: 'Edit',
             icon: <MdEdit size={24} />,
             onClick: () => {
-              openVaccineDialog();
-
-              console.log('Open Edit', info.cell.row.original);
+              openVaccineDialog({
+                isOpen: true,
+                mode: 'edit',
+                data: info.cell.row.original,
+              });
             },
           },
           {
@@ -103,12 +110,15 @@ function VaccineTable({
       }),
       columnHelper.accessor('isMandatory', {
         header: 'Mandatory?',
-        cell: (info) =>
-          info.getValue() ? (
-            <VscPass color="green" />
-          ) : (
-            <VscError color="red" />
-          ),
+        cell: (info) => (
+          <span className="flex justify-center">
+            {info.getValue() ? (
+              <VscPass color="green" />
+            ) : (
+              <VscError color="red" />
+            )}
+          </span>
+        ),
       }),
       columnHelper.accessor('createdAt', {
         header: 'Created At',
@@ -148,7 +158,7 @@ function VaccineTable({
   });
 
   return (
-    <div className="overflow-auto pt-4">
+    <div className="mt-4 h-[calc(100vh-350px)] overflow-auto ">
       <table className="w-full shadow-md">
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (

@@ -9,8 +9,12 @@ import VaccineDialog from '../../components/VaccineDialog';
 import FabButton from '../../components/FabButton/FabButton';
 import ConfirmationDialog from '../../components/ConfirmationDialog';
 
-import { IdParams } from '../../interfaces/commonInterface';
-import { Vaccine } from '../../interfaces/vaccineInterface';
+import { DialogOptions, IdParams } from '../../interfaces/commonInterface';
+import {
+  Vaccine,
+  CreateVaccinePayload,
+  PatchVaccinePayload,
+} from '../../interfaces/vaccineInterface';
 
 import { useAppDispatch } from '../../hooks';
 
@@ -19,8 +23,21 @@ import { deleteVaccineThunk, getVaccineThunk } from '../../slices/vaccineSlice';
 import { showErrorMessage, showSuccessMessage } from '../../utils/toast';
 import VaccineStageCard from '../../components/VaccineStageCard/VaccineStageCard';
 
+const INITIAL_VACCINE: CreateVaccinePayload = {
+  name: '',
+  description: '',
+  numberOfDoses: 1,
+  isMandatory: false,
+  stage: 'R&D',
+};
+
 function VaccinePage() {
-  const [isVaccineDialogOpen, setIsVaccineDialogOpen] = useState(false);
+  const [vaccineAddEditDialogOptions, setVaccineAddEditDialogOptions] =
+    useState<DialogOptions<CreateVaccinePayload | PatchVaccinePayload>>({
+      data: INITIAL_VACCINE,
+      isOpen: false,
+      mode: 'create',
+    });
   const [vaccineDeleteDialogOptions, setVaccineDeleteDialogOptions] = useState<{
     data: IdParams;
     isOpen: boolean;
@@ -33,12 +50,31 @@ function VaccinePage() {
   const dispatch = useAppDispatch();
 
   const openVaccineDialog = React.useCallback(
-    () => setIsVaccineDialogOpen(true),
+    (
+      option: DialogOptions<CreateVaccinePayload> = {
+        data: INITIAL_VACCINE,
+        isOpen: false,
+        mode: 'create',
+      },
+    ) => {
+      console.log(option);
+
+      setVaccineAddEditDialogOptions({
+        isOpen: true,
+        data: { ...option.data },
+        mode: option.mode,
+      });
+    },
     [],
   );
 
   const closeVaccineDialog = React.useCallback(
-    () => setIsVaccineDialogOpen(false),
+    () =>
+      setVaccineAddEditDialogOptions({
+        isOpen: false,
+        data: INITIAL_VACCINE,
+        mode: 'create',
+      }),
     [],
   );
 
@@ -70,7 +106,7 @@ function VaccinePage() {
 
   return (
     <>
-      <div className="grid grid-cols-3">
+      <div className="grid max-h-96 grid-cols-3">
         <Card className="flex max-w-sm justify-center">
           <CardContent>
             <Typography className="text-center" component="div" variant="h5">
@@ -118,10 +154,16 @@ function VaccinePage() {
           </CardContent>
         </Card>
       </div>
-      <VaccineDialog
-        isOpen={isVaccineDialogOpen}
-        onClose={closeVaccineDialog}
-      />
+
+      {vaccineAddEditDialogOptions.isOpen && (
+        <VaccineDialog
+          isOpen
+          mode={vaccineAddEditDialogOptions.mode}
+          onClose={closeVaccineDialog}
+          data={vaccineAddEditDialogOptions.data}
+        />
+      )}
+
       <ConfirmationDialog
         onAccept={deleteVaccine}
         acceptButtontext="Delete"
@@ -136,7 +178,10 @@ function VaccinePage() {
         openVaccineDeleteDialog={openVaccineDeleteDialog}
       />
 
-      <FabButton tooltipMessage="Add Vaccine" onClick={openVaccineDialog}>
+      <FabButton
+        tooltipMessage="Add Vaccine"
+        onClick={() => openVaccineDialog()}
+      >
         <AddIcon />
       </FabButton>
     </>
