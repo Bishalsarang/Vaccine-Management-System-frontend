@@ -54,8 +54,13 @@ function Dialog({
           {children}
         </div>
         <div className="gap-3 bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-          <Button label={acceptButtonText} onClick={onAccept} />
-          <Button onClick={onClose} label={cancelButtonText} />
+          <Button color="primary" label={acceptButtonText} onClick={onAccept} />
+          <Button
+            color="secondary"
+            variant="outlined"
+            onClick={onClose}
+            label={cancelButtonText}
+          />
         </div>
       </div>
     </Modal>
