@@ -24,7 +24,6 @@ function VaccineStageCard() {
     fetchVaccines();
   }, []);
 
-  console.log(isLoading);
   return (
     <Card className="flex max-w-sm items-start justify-center">
       <CardContent>
@@ -32,6 +31,7 @@ function VaccineStageCard() {
           Vaccine Stages
         </Typography>
         <PieChartWrapper
+          outerRadius={55}
           loaderRadius={120}
           isLoading={isLoading}
           dataKey="count"

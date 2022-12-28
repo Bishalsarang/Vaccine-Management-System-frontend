@@ -43,7 +43,7 @@ export function PieChartWrapper({
         data={data}
         cx={width / 2}
         fill="#8884d8"
-        cy={height / 2 - 20}
+        cy={height / 2 - 30}
         dataKey={dataKey}
         outerRadius={outerRadius}
       >
