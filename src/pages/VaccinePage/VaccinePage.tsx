@@ -4,7 +4,6 @@ import { Add as AddIcon } from '@mui/icons-material';
 import { Card, CardContent, Typography } from '@mui/material';
 
 import VaccineTable from '../../components/VaccineTable';
-import WordCloudWrapper from '../../components/WordCloud';
 import VaccineDialog from '../../components/VaccineDialog';
 import FabButton from '../../components/FabButton/FabButton';
 import ConfirmationDialog from '../../components/ConfirmationDialog';
@@ -22,6 +21,7 @@ import { deleteVaccineThunk, getVaccineThunk } from '../../slices/vaccineSlice';
 
 import { showErrorMessage, showSuccessMessage } from '../../utils/toast';
 import VaccineStageCard from '../../components/VaccineStageCard/VaccineStageCard';
+import VaccineAllergycard from '../../components/VaccineAllergyCard';
 
 const INITIAL_VACCINE: CreateVaccinePayload = {
   name: '',
@@ -144,16 +144,8 @@ function VaccinePage() {
             </Typography>
           </CardContent>
         </Card>
-        {<VaccineStageCard />}
-
-        <Card className="flex max-w-sm items-start justify-center">
-          <CardContent>
-            <Typography className="text-center" component="div" variant="h5">
-              Allergies/ SideEffects
-            </Typography>
-            <WordCloudWrapper />
-          </CardContent>
-        </Card>
+        <VaccineStageCard />
+        <VaccineAllergycard />
       </div>
 
       {vaccineAddEditDialogOptions.isOpen && (

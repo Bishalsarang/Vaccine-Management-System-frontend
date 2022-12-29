@@ -11,3 +11,4 @@ export const SIGNUP = API_BASE_URL + '/auth/signup';
 export const VACCINES = '/vaccines';
 export const VACCINES_ID = '/vaccines/:id';
 export const VACCINES_STAGES = '/vaccines/stages';
+export const VACCINES_ALLERGIES = '/vaccines/allergies';

@@ -5,13 +5,13 @@ import { Card, CardContent, Typography } from '@mui/material';
 import PieChartWrapper from '../PieChart';
 import {
   getVaccineStages,
-  VaccineStageCount,
+  FieldCountWrapper,
 } from '../../services/vaccineService';
 
 function VaccineStageCard() {
   const [isLoading, setIsLoading] = useState(false);
 
-  const [vaccineStages, setVaccineStages] = useState<VaccineStageCount[]>([]);
+  const [vaccineStages, setVaccineStages] = useState<FieldCountWrapper[]>([]);
 
   useEffect(() => {
     async function fetchVaccines() {

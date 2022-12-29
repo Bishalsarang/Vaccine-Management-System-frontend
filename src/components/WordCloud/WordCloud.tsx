@@ -1,24 +1,26 @@
-import WordCloud from 'react-wordcloud';
+import WordCloud, { Word } from 'react-wordcloud';
 import SkeletonWrapper from '../Skeleton';
 
-const data = [
-  { text: 'fever', value: 10 },
-  { text: 'nausea', value: 20 },
-  { text: 'headache', value: 5 },
-  { text: 'vomiting', value: 15 },
-];
+interface WordCloudWrapperProps {
+  data: Word[];
+  width?: number;
+  height?: number;
+  isLoading: boolean;
+}
 
 export function WordCloudWrapper({
+  data = [],
   width = 350,
   height = 160,
   isLoading = false,
-}) {
+}: WordCloudWrapperProps) {
+  console.log(isLoading, data);
   if (isLoading) {
-    return <SkeletonWrapper />;
+    return <SkeletonWrapper width={width} height={height} />;
   }
 
   return (
-    <div className=" max-h-9">
+    <div className="max-h-9">
       <WordCloud size={[width, height]} words={data} />
     </div>
   );

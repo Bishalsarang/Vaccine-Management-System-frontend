@@ -9,6 +9,7 @@ import {
 
 import {
   VACCINES,
+  VACCINES_ALLERGIES,
   VACCINES_ID,
   VACCINES_STAGES,
 } from '../constants/endpoints.constants';
@@ -71,7 +72,7 @@ export async function deleteVaccine(id: number): Promise<any> {
   return response;
 }
 
-export interface VaccineStageCount {
+export interface FieldCountWrapper {
   name: string;
   count: number;
 }
@@ -79,11 +80,24 @@ export interface VaccineStageCount {
 /**
  * Gets the vaccine stages
  *
- * @returns  A promise that resolves to the response from the server.
+ * @returns
  */
-export async function getVaccineStages(): Promise<VaccineStageCount[]> {
-  const response = await axiosInstance.get<any, VaccineStageCount[]>(
+export async function getVaccineStages(): Promise<FieldCountWrapper[]> {
+  const response = await axiosInstance.get<any, FieldCountWrapper[]>(
     VACCINES_STAGES,
+  );
+
+  return response;
+}
+
+/**
+ * Gets the vaccine alergies
+ *
+ * @returns
+ */
+export async function getAllergies(): Promise<FieldCountWrapper[]> {
+  const response = await axiosInstance.get<any, FieldCountWrapper[]>(
+    VACCINES_ALLERGIES,
   );
 
   return response;
