@@ -3,7 +3,8 @@ import { showErrorMessage } from './toast';
 import axios, { AxiosRequestConfig } from 'axios';
 
 import { API_BASE_URL } from '../config';
-import { logoutUser } from '../slices/userSlice';
+import { logoutUser, refreshTokenThunk } from '../slices/userSlice';
+import { AuthenticationToken } from '../interfaces/auth.interface';
 
 // Since directly importing store.ts cause circular dependency: store.ts > slices/vaccineSlice.ts > services/vaccineService.ts > utils/axios.ts
 // We can follow this pattern: https://redux.js.org/faq/code-structure#how-can-i-use-the-redux-store-in-non-component-files
@@ -20,46 +21,94 @@ export const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
 });
 
+function getConfigWithAccessToken(
+  config: AxiosRequestConfig,
+  accessToken: AuthenticationToken['accessToken'],
+) {
+  return {
+    ...config,
+    headers: {
+      ...config.headers,
+      Authorization: `Bearer ${accessToken}`,
+    },
+  };
+}
+
+const { CancelToken } = axios;
+const cancelTokenSource = CancelToken.source();
+
 axiosInstance.interceptors.request.use(
   (config: AxiosRequestConfig) => {
-    const { accessToken } = store.getState().user;
+    const { accessToken, refreshToken } = store.getState().user;
 
-    config = {
-      ...config,
-      headers: {
-        ...config.headers,
-        Authorization: `Bearer ${accessToken}`,
-      },
-    };
+    // If we have an accesstoken, then add the 'Authorization Bearer' header with that token
+    if (accessToken) {
+      return getConfigWithAccessToken(config, accessToken);
+    }
 
-    // TODO: Add response ionterceptor to handle error and retry.
-    // TODO: Add logic for refresh token.
+    // If we don't have a accessToken and the refresh token
+    if (!refreshToken) {
+      cancelTokenSource.cancel('Missing both accessToken and refreshToken');
+
+      return config;
+    }
+
+    // Otherwise try to get the new access token.
+    store.dispatch(refreshTokenThunk(refreshToken)).unwrap();
 
     return config;
   },
   (error) => {
-    console.error(error);
+    throw error;
   },
 );
 
 axiosInstance.interceptors.response.use(
   (response) => response.data,
-  (error) => {
-    const { status } = error.response;
+  async (error) => {
+    const { refreshToken } = store.getState().user;
 
-    const retryCount = error.config.__retryCount || 0;
-
-    // If the error response has a 404 status and the retry count is less than the maximum number of retries, retry the request
-    if (status === 404 && retryCount < MAX_RETRIES) {
-      error.config.__retryCount = retryCount + 1;
-      return axiosInstance.request(error.config);
+    if (axios.isCancel(error)) {
+      // If the maximum number of retries has been reached, redirect to the login page
+      showErrorMessage('The token has expired. Please try loggin in', {
+        toastId: 'axios-response-error',
+      });
+      store.dispatch(logoutUser());
     }
 
-    // If the maximum number of retries has been reached, redirect to the login page
-    showErrorMessage('The token has expired. Please try loggin in', {
-      toastId: 'axios-response-error',
-    });
-    store.dispatch(logoutUser());
+    const { response, config } = error;
+
+    if (config._isRetry && config._retryCount >= MAX_RETRIES) {
+      // Check `>= MAX_RETRIES` instead of `> MAX_RETRIES` because,
+      // this is response interceptor, which means the request should have
+      // already been made.
+      throw new Error('Maximum retries Exceeded.');
+    }
+
+    if (response.status !== 401) {
+      // TODO: Handle other errors
+      showErrorMessage(response.data.message);
+
+      throw error;
+    }
+
+    try {
+      await store.dispatch(refreshTokenThunk(refreshToken)).unwrap();
+
+      const { cancelToken, ...configWithoutCancelToken } = config;
+      const retryCount = configWithoutCancelToken._retryCount;
+
+      return axiosInstance({
+        ...configWithoutCancelToken,
+        _isRetry: true,
+        _retryCount: retryCount ? retryCount + 1 : 1,
+      });
+    } catch (refreshError) {
+      showErrorMessage('The token has expired. Please try loggin in', {
+        toastId: 'axios-response-error',
+      });
+      store.dispatch(logoutUser());
+    }
 
     return Promise.reject(error);
   },

@@ -58,8 +58,6 @@ function VaccinePage() {
         mode: 'create',
       },
     ) => {
-      console.log(option);
-
       setVaccineAddEditDialogOptions({
         isOpen: true,
         data: { ...option.data },

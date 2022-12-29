@@ -38,7 +38,6 @@ export function UploadButton({
         onChange={(event) => {
           const files = event.target.files || [];
           const formData = new FormData();
-          console.log(files.length);
           for (let i = 0; i < files.length; i++) {
             formData.append('files', files[i]);
           }

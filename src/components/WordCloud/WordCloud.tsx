@@ -14,7 +14,6 @@ export function WordCloudWrapper({
   height = 160,
   isLoading = false,
 }: WordCloudWrapperProps) {
-  console.log(isLoading, data);
   if (isLoading) {
     return <SkeletonWrapper width={width} height={height} />;
   }

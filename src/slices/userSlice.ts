@@ -6,7 +6,11 @@ import {
   AuthenticationToken,
 } from '../interfaces/auth.interface';
 
-import { login, signup } from '../services/authService';
+import {
+  login,
+  refreshAuthenticationToken,
+  signup,
+} from '../services/authService';
 
 import {
   getUserInfoFromToken,
@@ -61,6 +65,7 @@ export const signupUser = createAsyncThunk<unknown, SignupPayload>(
   async (payload, { rejectWithValue }) => {
     try {
       const data = await signup(payload);
+      saveAuthenticationToken(data);
 
       return data;
     } catch (error: any) {
@@ -72,6 +77,24 @@ export const signupUser = createAsyncThunk<unknown, SignupPayload>(
     }
   },
 );
+
+export const refreshTokenThunk = createAsyncThunk<
+  unknown,
+  AuthenticationToken['refreshToken']
+>('user/refreshToken', async (payload, { rejectWithValue }) => {
+  try {
+    const data = await refreshAuthenticationToken(payload);
+    saveAuthenticationToken(data);
+
+    return data;
+  } catch (error: any) {
+    if (error.response && error.response.data.message) {
+      return rejectWithValue(error.response.data.message);
+    } else {
+      return rejectWithValue(error.message);
+    }
+  }
+});
 
 const userSlice = createSlice({
   name: 'user',
@@ -93,6 +116,13 @@ const userSlice = createSlice({
     [signupUser.pending as any]: userSignupPendingReducer,
     [signupUser.rejected as any]: userSignupRejectedReducer,
     [signupUser.fulfilled as any]: userSignupFulfilledReducer,
+    [refreshTokenThunk.fulfilled as any]: (state, { payload }) => {
+      state.isLoading = false;
+      state.success = true;
+      state.userInfo = getUserInfoFromToken(payload.accessToken);
+      state.accessToken = payload.accessToken;
+      state.refreshToken = payload.refreshToken;
+    },
   },
 });
 

@@ -23,7 +23,6 @@ import {
  */
 export async function getVaccines(): Promise<Vaccine[]> {
   const vaccines = await axiosInstance.get<any, Vaccine[]>(VACCINES);
-
   return vaccines;
 }
 

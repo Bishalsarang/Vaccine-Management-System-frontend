@@ -54,7 +54,6 @@ export default function Sidebar({
                 <NavLink
                   to={item.path}
                   className={({ isActive }) => {
-                    console.log(isActive);
                     return isActive ? 'Mui-selected bg-red-400' : '';
                   }}
                   key={item.label}
