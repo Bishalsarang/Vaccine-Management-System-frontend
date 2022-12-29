@@ -19,6 +19,7 @@ export interface CreateVaccinePayload {
   numberOfDoses: number;
   isMandatory: boolean;
   stage: VaccineStage;
+  allergies: string[];
 }
 
 /**

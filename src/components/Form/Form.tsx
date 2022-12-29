@@ -4,21 +4,27 @@ import {
   Checkbox,
   MenuItem,
   TextField,
-  FormControlLabel,
-  FormControl,
   InputLabel,
+  FormControl,
+  FormControlLabel,
 } from '@mui/material';
 
 import Button from '../Button';
+import AutoComplete from '../AutoComplete';
 
 export type FormField = {
   id: string;
   type?: string;
   label: string;
-  errorLabel?: string;
+  errorLabel?: string | string[];
   placeholder?: string;
+  autocompleteOptions?: {
+    options: string[];
+    setOptions: (options: string[]) => void;
+    selectedOptions: string[];
+  };
   dropDownOptions?: { value: string; label: string }[];
-  renderer?: 'text' | 'textArea' | 'checkbox' | 'dropdown';
+  renderer?: 'text' | 'textArea' | 'checkbox' | 'dropdown' | 'autocomplete';
 };
 
 export type FormikInstanceType = FormikProps<any>;
@@ -60,17 +66,17 @@ export default function Form({
             placeholder,
             errorLabel,
             type,
+            autocompleteOptions,
             dropDownOptions = [],
           }) => (
             <div key={id} className="flex flex-col gap-y-3">
               {renderer === 'text' &&
-                renderTextField({
+                renderTextField(formikInstance, {
                   id,
                   type,
                   label,
                   errorLabel,
                   placeholder,
-                  formikInstance,
                 })}
               {renderer === 'textArea' &&
                 renderTextArea({
@@ -82,6 +88,15 @@ export default function Form({
                 })}
               {renderer === 'checkbox' &&
                 renderCheckBox({ formikInstance, id, label })}
+              {renderer === 'autocomplete' &&
+                renderAutoComplete(formikInstance, {
+                  id,
+                  type,
+                  label,
+                  errorLabel,
+                  autocompleteOptions,
+                  placeholder,
+                })}
               {renderer === 'dropdown' &&
                 renderDropDown({ id, label, formikInstance, dropDownOptions })}
             </div>
@@ -98,6 +113,27 @@ export default function Form({
         )}
       </div>
     </form>
+  );
+}
+
+function renderAutoComplete(
+  formikInstance: FormikInstanceType,
+  formfield: FormField,
+) {
+  const { autocompleteOptions } = formfield;
+
+  return (
+    <AutoComplete
+      label={formfield.label}
+      options={autocompleteOptions?.options}
+      selectedOptions={autocompleteOptions?.selectedOptions}
+      setOptions={(options) => {
+        autocompleteOptions?.setOptions(options);
+      }}
+      setSelectedOptions={(selectedOptions) => {
+        formikInstance.setFieldValue(formfield.id, selectedOptions);
+      }}
+    />
   );
 }
 
@@ -174,34 +210,23 @@ function renderTextArea({
   return (
     <TextField
       id={id}
+      rows={3}
+      multiline
       type={type}
       label={label}
+      variant="standard"
       placeholder={placeholder}
       value={formikInstance.values[id]}
       onBlur={formikInstance.handleBlur}
       onChange={formikInstance.handleChange}
-      variant="standard"
-      multiline
-      rows={4}
     />
   );
 }
 
-function renderTextField({
-  id,
-  type,
-  errorLabel,
-  formikInstance,
-  label,
-  placeholder,
-}: {
-  id: string;
-  type: string | undefined;
-  errorLabel: string | undefined;
-  formikInstance: FormikInstanceType;
-  label: string;
-  placeholder: string | undefined;
-}): JSX.Element {
+function renderTextField(
+  formikInstance: FormikInstanceType,
+  { id, type, errorLabel, label, placeholder }: FormField,
+): JSX.Element {
   return (
     <TextField
       id={id}
