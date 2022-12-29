@@ -29,6 +29,7 @@ const INITIAL_VACCINE: CreateVaccinePayload = {
   numberOfDoses: 1,
   isMandatory: false,
   stage: 'R&D',
+  allergies: [],
 };
 
 function VaccinePage() {

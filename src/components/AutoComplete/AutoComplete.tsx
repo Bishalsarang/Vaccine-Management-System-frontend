@@ -1,59 +1,94 @@
 import { useState, useCallback } from 'react';
-import { Autocomplete, TextField } from '@mui/material';
+import { TextField, Autocomplete, TextFieldProps } from '@mui/material';
 
 import Chip from '../Chip';
 
-export function AutoCOmpleteWrapper() {
-  const [chips, setChips] = useState<string[]>([]);
-  const [options, setOptions] = useState<string[]>(['Option 1', 'Option 2']);
+interface AutoCompleteWrapperProps {
+  label: string;
+  options?: string[];
+  noOptionsText?: string;
+  selectedOptions?: string[];
+  textFieldOptions?: TextFieldProps;
+  setOptions: (options: string[]) => void;
+  setSelectedOptions: (options: string[]) => void;
+}
+
+export function AutoCOmpleteWrapper({
+  label,
+  setOptions,
+  options = [],
+  noOptionsText,
+  textFieldOptions,
+  setSelectedOptions,
+  selectedOptions = [],
+}: AutoCompleteWrapperProps) {
   const [text, setText] = useState('');
 
   const handleKeyDown = useCallback(
     (event: React.KeyboardEvent<HTMLDivElement>) => {
       if (event.key === 'Enter') {
+        if (!text) {
+          return;
+        }
+
         event.preventDefault();
-        setChips(Array.from(new Set([...chips, text])));
+        setSelectedOptions(Array.from(new Set([...selectedOptions, text])));
         setOptions(Array.from(new Set([...options, text])));
+
         setText('');
       }
     },
-    [chips, options, text],
+    [text, selectedOptions, options, setOptions, setSelectedOptions],
   );
 
   const handleDelete = useCallback(
     (value: string) => {
-      setChips(chips.filter((chip) => chip !== value));
+      setSelectedOptions(selectedOptions.filter((option) => option !== value));
     },
-    [chips],
+    [selectedOptions, setSelectedOptions],
   );
+
+  const tagRenderer = useCallback(
+    (values: string[]) => {
+      return values.map((value, index) => (
+        <Chip key={index} label={value} onDelete={() => handleDelete(value)} />
+      ));
+    },
+    [handleDelete],
+  );
+
+  const inputRenderer = useCallback(
+    (params: any) => {
+      return (
+        <TextField
+          {...params}
+          value={text}
+          label={label}
+          variant="standard"
+          onKeyDown={handleKeyDown}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+            setText(event.target.value)
+          }
+          {...textFieldOptions}
+        />
+      );
+    },
+    [handleKeyDown, label, text, textFieldOptions],
+  );
+
+  const handleChange = useCallback((_event: any, values: string[]) => {
+    setSelectedOptions(values);
+  }, []);
 
   return (
     <Autocomplete
       multiple
       options={options}
-      value={chips}
-      onChange={(_event: any, values: string[]) => setChips(values)}
-      renderTags={(values: string[]) =>
-        values.map((value, index) => (
-          <Chip
-            key={index}
-            label={value}
-            onDelete={() => handleDelete(value)}
-          />
-        ))
-      }
-      renderInput={(params: any) => (
-        <TextField
-          {...params}
-          variant="outlined"
-          value={text}
-          label="Enter text"
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-            setText(event.target.value)
-          }
-          onKeyDown={handleKeyDown}
-        />
-      )}
+      value={selectedOptions}
+      onChange={handleChange}
+      renderTags={tagRenderer}
+      renderInput={inputRenderer}
+      noOptionsText={noOptionsText}
     />
   );
 }

@@ -1,9 +1,9 @@
 import { useFormik } from 'formik';
 
-import { useAppDispatch } from '../../hooks';
 import Dialog from '../Dialog';
 import Form, { FormField } from '../../components/Form';
 
+import { useAppDispatch } from '../../hooks';
 import { vaccineSchema } from '../../schemas/vaccineSchema';
 import {
   getVaccineThunk,
@@ -15,7 +15,7 @@ import {
   PatchVaccinePayload,
   CreateVaccinePayload,
 } from '../../interfaces/vaccineInterface';
-import AutoComplete from '../AutoComplete';
+import { useEffect, useState } from 'react';
 
 interface VaccineDialogProps {
   isOpen?: boolean;
@@ -30,14 +30,21 @@ const VaccineDialog = ({
   onClose,
   data = {
     name: '',
+    stage: '',
+    allergies: [],
     companyName: '',
     description: '',
     numberOfDoses: 1,
     isMandatory: false,
-    stage: '',
   },
 }: VaccineDialogProps) => {
+  const [allergiesOptions, setAllergiesOptions] = useState<string[]>([]);
+
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    setAllergiesOptions([]);
+  }, []);
 
   const formik = useFormik({
     initialValues: data,
@@ -69,15 +76,6 @@ const VaccineDialog = ({
       placeholder: 'Enter name',
     },
     {
-      type: 'text',
-      renderer: 'text',
-      id: 'image',
-      label: 'Image*',
-      errorLabel: formik.errors.stage,
-      placeholder: 'Enter Stage',
-    },
-    {
-      type: 'file',
       renderer: 'dropdown',
       id: 'stage',
       label: 'Stage*',
@@ -95,6 +93,18 @@ const VaccineDialog = ({
       label: 'Description',
       errorLabel: formik.errors.description,
       placeholder: 'Enter description',
+    },
+    {
+      id: 'allergies',
+      renderer: 'autocomplete',
+      label: 'Allergies & SideEffects',
+      autocompleteOptions: {
+        options: allergiesOptions,
+        setOptions: (options: string[]) => setAllergiesOptions(options),
+        selectedOptions: formik.values.allergies || [],
+      },
+      placeholder: 'Enter Dose Amount',
+      errorLabel: formik.errors.allergies,
     },
     {
       type: 'number',
@@ -117,22 +127,20 @@ const VaccineDialog = ({
       id: 'isMandatory',
       label: 'Is Mandatory',
       errorLabel: formik.errors.isMandatory,
-      placeholder: 'Enter Dose Amount',
     },
   ];
+
   return (
     <Dialog
       open={isOpen}
-      heading="Add vacccine"
       onClose={() => {
         formik.resetForm();
         onClose && onClose();
       }}
+      heading={mode === 'create' ? 'Create Vaccine' : 'Update Vaccine'}
       onAccept={formik.handleSubmit}
     >
       <Form hasBorder={false} fields={FIELDS} formikInstance={formik}></Form>
-
-      <AutoComplete />
     </Dialog>
   );
 };
