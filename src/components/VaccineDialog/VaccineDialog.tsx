@@ -50,19 +50,20 @@ const VaccineDialog = ({
     initialValues: data,
     validationSchema: vaccineSchema,
     onSubmit: async () => {
-      if (mode === 'create') {
-        await dispatch(
-          createVaccineThunk(formik.values as CreateVaccinePayload),
-        );
-      } else {
-        await dispatch(
-          updateVaccineThunk(formik.values as PatchVaccinePayload),
-        );
-      }
-
-      onClose();
-      formik.resetForm();
-      dispatch(getVaccineThunk());
+      try {
+        if (mode === 'create') {
+          await dispatch(
+            createVaccineThunk(formik.values as CreateVaccinePayload),
+          ).unwrap();
+        } else {
+          await dispatch(
+            updateVaccineThunk(formik.values as PatchVaccinePayload),
+          ).unwrap();
+        }
+        onClose();
+        formik.resetForm();
+        dispatch(getVaccineThunk());
+      } catch (err: any) {}
     },
   });
 
