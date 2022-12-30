@@ -24,7 +24,7 @@ export function VaccineAllergyCard() {
   }, []);
 
   return (
-    <Card className="flex max-w-sm items-start justify-center">
+    <Card className="flex h-full max-w-sm items-start justify-center">
       <CardContent>
         <Typography className="text-center" component="div" variant="h5">
           Allergies/ SideEffects

@@ -19,8 +19,14 @@ export function WordCloudWrapper({
   }
 
   return (
-    <div className="max-h-9">
-      <WordCloud size={[width, height]} words={data} />
+    <div>
+      <WordCloud
+        options={{
+          fontSizes: [16, 54],
+        }}
+        size={[width, height]}
+        words={data}
+      />
     </div>
   );
 }

@@ -107,45 +107,53 @@ function VaccinePage() {
 
   return (
     <>
-      <div className="grid max-h-96 grid-cols-3">
-        <Card className="flex max-w-sm justify-center">
-          <CardContent>
-            <Typography className="text-center" component="div" variant="h5">
-              Summary
-            </Typography>
+      <div className="flex flex-wrap">
+        <div className="w-full p-3 md:w-1/3">
+          <Card className="h-full">
+            <CardContent>
+              <Typography className="text-center" component="div" variant="h5">
+                Summary
+              </Typography>
 
-            <Typography
-              component="div"
-              variant="subtitle1"
-              color="text.secondary"
-            >
-              Total Vaccines: <span>{100}</span>
-            </Typography>
-            <Typography
-              component="div"
-              variant="subtitle1"
-              color="text.secondary"
-            >
-              Mandatory Vaccines: <span>{40}</span>
-            </Typography>
-            <Typography
-              component="div"
-              variant="subtitle1"
-              color="text.secondary"
-            >
-              Non Mandatory Vaccines: <span>{60}</span>
-            </Typography>
-            <Typography
-              component="div"
-              variant="subtitle1"
-              color="text.secondary"
-            >
-              Average Dose: <span>{12}</span>
-            </Typography>
-          </CardContent>
-        </Card>
-        <VaccineStageCard />
-        <VaccineAllergycard />
+              <Typography
+                component="div"
+                variant="subtitle1"
+                color="text.secondary"
+              >
+                Total Vaccines: <span>{100}</span>
+              </Typography>
+              <Typography
+                component="div"
+                variant="subtitle1"
+                color="text.secondary"
+              >
+                Mandatory Vaccines: <span>{40}</span>
+              </Typography>
+              <Typography
+                component="div"
+                variant="subtitle1"
+                color="text.secondary"
+              >
+                Non Mandatory Vaccines: <span>{60}</span>
+              </Typography>
+              <Typography
+                component="div"
+                variant="subtitle1"
+                color="text.secondary"
+              >
+                Average Dose: <span>{12}</span>
+              </Typography>
+            </CardContent>
+          </Card>
+        </div>
+
+        <div className="min-h-full w-full p-3 md:w-1/3">
+          <VaccineStageCard />
+        </div>
+
+        <div className="min-h-full w-full p-3 md:w-1/3">
+          <VaccineAllergycard />
+        </div>
       </div>
 
       {vaccineAddEditDialogOptions.isOpen && (
