@@ -30,6 +30,8 @@ const INITIAL_VACCINE: CreateVaccinePayload = {
   isMandatory: false,
   stage: 'R&D',
   allergies: [],
+  image: null,
+  imageUrl: null,
 };
 
 function VaccinePage() {

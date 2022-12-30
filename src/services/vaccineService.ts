@@ -1,4 +1,6 @@
-import { axiosInstance } from '../utils/axios';
+import { CONTENT_TYPE } from './../constants/http.constants';
+
+import { axiosInstance } from '../utils/http';
 import { interpolate } from '../utils/string';
 
 import {
@@ -13,6 +15,11 @@ import {
   VACCINES_ID,
   VACCINES_STAGES,
 } from '../constants/endpoints.constants';
+
+export interface FieldCountWrapper {
+  name: string;
+  count: number;
+}
 
 //TODO: Convert any type to appropriate interface.
 
@@ -35,7 +42,13 @@ export async function getVaccines(): Promise<Vaccine[]> {
 export async function createVaccine(
   payload: CreateVaccinePayload,
 ): Promise<Vaccine> {
-  const vaccines = await axiosInstance.post<any, Vaccine>(VACCINES, payload);
+  // Axios automatically handles serializing the payload to formData.
+
+  const vaccines = await axiosInstance.post<any, Vaccine>(VACCINES, payload, {
+    headers: {
+      'Content-Type': CONTENT_TYPE.MULTIPART_FORM_DATA,
+    },
+  });
 
   return vaccines;
 }
@@ -43,16 +56,21 @@ export async function createVaccine(
 /**
  * Update an existing vaccine.
  *
- * @param {PatchVaccinePayload} patchPayload - The payload containing the updated data for the vaccine.
+ * @param {PatchVaccinePayload} payload - The payload containing the updated data for the vaccine.
  * @returns {Promise<any>} A promise that resolves to the updated vaccine.
  */
 export async function updateVaccine(
   id: number,
-  patchPayload: PatchVaccinePayload,
+  payload: PatchVaccinePayload,
 ): Promise<Vaccine> {
   const url = interpolate(VACCINES_ID, { id });
 
-  const vaccines = await axiosInstance.patch<any, Vaccine>(url, patchPayload);
+  // Axios automatically handles serializing the payload to formData.
+  const vaccines = await axiosInstance.patch<any, Vaccine>(url, payload, {
+    headers: {
+      'Content-Type': CONTENT_TYPE.MULTIPART_FORM_DATA,
+    },
+  });
 
   return vaccines;
 }
@@ -69,11 +87,6 @@ export async function deleteVaccine(id: number): Promise<any> {
   const response = await axiosInstance.delete(url);
 
   return response;
-}
-
-export interface FieldCountWrapper {
-  name: string;
-  count: number;
 }
 
 /**

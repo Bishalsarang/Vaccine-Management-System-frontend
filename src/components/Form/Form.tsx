@@ -11,6 +11,7 @@ import {
 
 import Button from '../Button';
 import AutoComplete from '../AutoComplete';
+import UploadButton from '../UploadButton';
 
 export type FormField = {
   id: string;
@@ -23,8 +24,19 @@ export type FormField = {
     setOptions: (options: string[]) => void;
     selectedOptions: string[];
   };
+  uploadOptions?: {
+    variant?: 'icon';
+    acceptedTypes?: string;
+    existingImageUrl?: string | null;
+  };
   dropDownOptions?: { value: string; label: string }[];
-  renderer?: 'text' | 'textArea' | 'checkbox' | 'dropdown' | 'autocomplete';
+  renderer?:
+    | 'text'
+    | 'upload'
+    | 'textArea'
+    | 'checkbox'
+    | 'dropdown'
+    | 'autocomplete';
 };
 
 export type FormikInstanceType = FormikProps<any>;
@@ -61,11 +73,12 @@ export default function Form({
         {fields.map(
           ({
             id,
-            renderer = 'text',
-            label,
-            placeholder,
-            errorLabel,
             type,
+            label,
+            errorLabel,
+            placeholder,
+            renderer = 'text',
+            uploadOptions = {},
             autocompleteOptions,
             dropDownOptions = [],
           }) => (
@@ -99,6 +112,12 @@ export default function Form({
                 })}
               {renderer === 'dropdown' &&
                 renderDropDown({ id, label, formikInstance, dropDownOptions })}
+              {renderer === 'upload' &&
+                renderUploadButton(formikInstance, {
+                  id,
+                  label,
+                  uploadOptions,
+                })}
             </div>
           ),
         )}
@@ -113,6 +132,25 @@ export default function Form({
         )}
       </div>
     </form>
+  );
+}
+
+function renderUploadButton(
+  formikInstance: FormikInstanceType,
+  { id, label, uploadOptions = {} }: FormField,
+) {
+  return (
+    <UploadButton
+      label={label}
+      variant={uploadOptions.variant}
+      onBlur={formikInstance.handleBlur}
+      imageUrl={formikInstance.values.imageUrl}
+      acceptTypes={uploadOptions.acceptedTypes}
+      file={formikInstance.values[id]}
+      onChange={(event) => {
+        formikInstance.setFieldValue(id, event.target.files?.[0]);
+      }}
+    />
   );
 }
 

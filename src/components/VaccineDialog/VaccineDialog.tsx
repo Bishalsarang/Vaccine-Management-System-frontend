@@ -16,6 +16,7 @@ import {
   CreateVaccinePayload,
 } from '../../interfaces/vaccineInterface';
 import { useEffect, useState } from 'react';
+import { CONTENT_TYPE } from '../../constants/http.constants';
 
 interface VaccineDialogProps {
   isOpen?: boolean;
@@ -36,6 +37,8 @@ const VaccineDialog = ({
     description: '',
     numberOfDoses: 1,
     isMandatory: false,
+    image: null,
+    imageUrl: null,
   },
 }: VaccineDialogProps) => {
   const [allergiesOptions, setAllergiesOptions] = useState<string[]>([]);
@@ -50,20 +53,20 @@ const VaccineDialog = ({
     initialValues: data,
     validationSchema: vaccineSchema,
     onSubmit: async () => {
-      try {
-        if (mode === 'create') {
-          await dispatch(
-            createVaccineThunk(formik.values as CreateVaccinePayload),
-          ).unwrap();
-        } else {
-          await dispatch(
-            updateVaccineThunk(formik.values as PatchVaccinePayload),
-          ).unwrap();
-        }
-        onClose();
-        formik.resetForm();
-        dispatch(getVaccineThunk());
-      } catch (err: any) {}
+      if (mode === 'create') {
+        await dispatch(
+          createVaccineThunk(formik.values as CreateVaccinePayload),
+        ).unwrap();
+      } else {
+        await dispatch(
+          updateVaccineThunk(formik.values as PatchVaccinePayload),
+        ).unwrap();
+      }
+
+      onClose();
+      formik.resetForm();
+      // TODO: Create middleware create and get, updatea and get
+      dispatch(getVaccineThunk());
     },
   });
 
@@ -127,6 +130,16 @@ const VaccineDialog = ({
       renderer: 'checkbox',
       id: 'isMandatory',
       label: 'Is Mandatory',
+      errorLabel: formik.errors.isMandatory,
+    },
+    {
+      renderer: 'upload',
+      id: 'image',
+      label: 'Select Image',
+      uploadOptions: {
+        acceptedTypes: CONTENT_TYPE.IMAGE,
+        existingImageUrl: formik.values.imageUrl,
+      },
       errorLabel: formik.errors.isMandatory,
     },
   ];

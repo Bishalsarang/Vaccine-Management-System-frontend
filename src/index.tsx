@@ -13,7 +13,7 @@ import DashboardPage from './pages/DashboardPage';
 import ProtectedPage from './pages/ProtectedPage';
 
 import store from './store';
-import { injectStore } from './utils/axios';
+import { injectStore } from './utils/http';
 import SignupPage from './pages/SignupPage';
 import SignoutPage from './pages/SignoutPage';
 

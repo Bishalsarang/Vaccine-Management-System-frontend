@@ -1,4 +1,4 @@
-import { StoreType } from './../store';
+import { StoreType } from '../store';
 import { showErrorMessage } from './toast';
 import axios, { AxiosRequestConfig } from 'axios';
 

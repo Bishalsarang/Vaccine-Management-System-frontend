@@ -20,6 +20,8 @@ export interface CreateVaccinePayload {
   isMandatory: boolean;
   stage: VaccineStage;
   allergies: string[];
+  image: null | File;
+  imageUrl: null | string;
 }
 
 /**
