@@ -18,4 +18,12 @@ describe('ERROR_MESSAGE', () => {
     const result = ERROR_MESSAGE.MIN_LENGTH(field, length);
     expect(result).toEqual(expectedMessage);
   });
+
+  it('should return the correct error message for POSITIVE_INTEGERL', () => {
+    const field = 'Age';
+    const expectedMessage = `${field} must be a positive integer.`;
+
+    const result = ERROR_MESSAGE.POSITIVE_INTEGERL(field);
+    expect(result).toEqual(expectedMessage);
+  });
 });

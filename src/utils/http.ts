@@ -31,6 +31,8 @@ export const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
 });
 
+export { store };
+
 /**
  * Takes `AxiosRequestConfig` and an `accessToken` and returns a new AxiosRequestConfig with the
  * `accessToken` added to the Authorization header
@@ -41,7 +43,7 @@ export const axiosInstance = axios.create({
  *
  * @returns A new object with the Authorization header.
  */
-function getConfigWithAccessToken(
+export function getConfigWithAccessToken(
   config: AxiosRequestConfig,
   accessToken: AuthenticationToken['accessToken'],
 ) {
@@ -112,7 +114,7 @@ async function refreshTokenAndRetry(
  * @param {any} error - The error thrown during the response.
  * @returns {Promise} - A rejected promise with the error.
  */
-async function handleResponseError(error: any): Promise<any> {
+export async function handleResponseError(error: any): Promise<any> {
   const { refreshToken } = store.getState().user;
 
   if (axios.isCancel(error)) {
@@ -124,7 +126,7 @@ async function handleResponseError(error: any): Promise<any> {
     store.dispatch(logoutUser());
   }
 
-  const { response, config } = error;
+  const { response = {}, config = {} } = error;
 
   if (config._isRetry && config._retryCount >= MAX_RETRIES) {
     // Check `>= MAX_RETRIES` instead of `> MAX_RETRIES` because,
@@ -134,7 +136,7 @@ async function handleResponseError(error: any): Promise<any> {
   }
 
   if (response.status !== 401) {
-    showErrorMessage(response.data.message);
+    showErrorMessage(response.data?.message);
 
     throw error;
   }
