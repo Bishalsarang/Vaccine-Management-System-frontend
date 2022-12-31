@@ -21,7 +21,6 @@ const initialState: VaccineState = {
   isLoading: false,
 };
 
-/* Creating a thunk that will be used to create a vaccine. */
 export const createVaccineThunk = createAsyncThunk<
   Vaccine,
   CreateVaccinePayload

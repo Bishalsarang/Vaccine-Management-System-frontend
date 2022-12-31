@@ -11,9 +11,9 @@ import {
 
 import {
   VACCINES,
-  VACCINES_ALLERGIES,
   VACCINES_ID,
   VACCINES_STAGES,
+  VACCINES_ALLERGIES,
 } from '../constants/endpoints.constants';
 
 export interface FieldCountWrapper {
@@ -21,15 +21,14 @@ export interface FieldCountWrapper {
   count: number;
 }
 
-//TODO: Convert any type to appropriate interface.
-
 /**
  * Get a list of vaccines.
  *
  * @returns { Promise<Vaccine[]> } A promise that resolves to the list of vaccines.
  */
 export async function getVaccines(): Promise<Vaccine[]> {
-  const vaccines = await axiosInstance.get<any, Vaccine[]>(VACCINES);
+  const vaccines = await axiosInstance.get<Vaccine[], Vaccine[]>(VACCINES);
+
   return vaccines;
 }
 
@@ -43,12 +42,17 @@ export async function createVaccine(
   payload: CreateVaccinePayload,
 ): Promise<Vaccine> {
   // Axios automatically handles serializing the payload to formData.
+  // So we don't have to manually create the formData
 
-  const vaccines = await axiosInstance.post<any, Vaccine>(VACCINES, payload, {
-    headers: {
-      'Content-Type': CONTENT_TYPE.MULTIPART_FORM_DATA,
+  const vaccines = await axiosInstance.post<Vaccine, Vaccine>(
+    VACCINES,
+    payload,
+    {
+      headers: {
+        [CONTENT_TYPE.KEY]: CONTENT_TYPE.MULTIPART_FORM_DATA,
+      },
     },
-  });
+  );
 
   return vaccines;
 }
@@ -66,9 +70,9 @@ export async function updateVaccine(
   const url = interpolate(VACCINES_ID, { id });
 
   // Axios automatically handles serializing the payload to formData.
-  const vaccines = await axiosInstance.patch<any, Vaccine>(url, payload, {
+  const vaccines = await axiosInstance.patch<Vaccine, Vaccine>(url, payload, {
     headers: {
-      'Content-Type': CONTENT_TYPE.MULTIPART_FORM_DATA,
+      [CONTENT_TYPE.KEY]: CONTENT_TYPE.MULTIPART_FORM_DATA,
     },
   });
 
@@ -90,27 +94,29 @@ export async function deleteVaccine(id: number): Promise<any> {
 }
 
 /**
- * Gets the vaccine stages
+ * Gets the vaccine stages.
  *
  * @returns
  */
 export async function getVaccineStages(): Promise<FieldCountWrapper[]> {
-  const response = await axiosInstance.get<any, FieldCountWrapper[]>(
-    VACCINES_STAGES,
-  );
+  const response = await axiosInstance.get<
+    FieldCountWrapper[],
+    FieldCountWrapper[]
+  >(VACCINES_STAGES);
 
   return response;
 }
 
 /**
- * Gets the vaccine alergies
+ * Gets the vaccine allergies
  *
  * @returns
  */
 export async function getAllergies(): Promise<FieldCountWrapper[]> {
-  const response = await axiosInstance.get<any, FieldCountWrapper[]>(
-    VACCINES_ALLERGIES,
-  );
+  const response = await axiosInstance.get<
+    FieldCountWrapper[],
+    FieldCountWrapper[]
+  >(VACCINES_ALLERGIES);
 
   return response;
 }

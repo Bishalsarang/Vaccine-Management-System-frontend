@@ -1,6 +1,7 @@
 import * as storage from '../utils/storage';
 
 import { TOKEN_KEY } from '../constants/base.constants';
+
 import { AuthenticationToken } from '../interfaces/auth.interface';
 
 /**
@@ -49,9 +50,10 @@ export function getAuthenticationTokenFromLocalStorage(): AuthenticationToken {
 }
 
 /**
+ * Extracts the user's information from a JSON web token.
  *
- * @param {String} token
- * @returns {Object}
+ * @param {(string|null)} token - The JSON web token.
+ * @returns {(null|object)} - The user's information, or null if the token is invalid.
  */
 export function getUserInfoFromToken(token: string | null): null | object {
   return decodeJWT(token);

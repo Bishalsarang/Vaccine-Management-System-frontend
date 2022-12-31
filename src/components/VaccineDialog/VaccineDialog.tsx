@@ -17,6 +17,7 @@ import {
 } from '../../interfaces/vaccineInterface';
 import { useEffect, useState } from 'react';
 import { CONTENT_TYPE } from '../../constants/http.constants';
+import { showSuccessMessage } from '../../utils/toast';
 
 interface VaccineDialogProps {
   isOpen?: boolean;
@@ -57,10 +58,12 @@ const VaccineDialog = ({
         await dispatch(
           createVaccineThunk(formik.values as CreateVaccinePayload),
         ).unwrap();
+        showSuccessMessage('Vaccine Created Sucessfully');
       } else {
         await dispatch(
           updateVaccineThunk(formik.values as PatchVaccinePayload),
         ).unwrap();
+        showSuccessMessage('Vaccine Updated Sucessfully');
       }
 
       onClose();
@@ -147,6 +150,7 @@ const VaccineDialog = ({
   return (
     <Dialog
       open={isOpen}
+      isAccceptButtonDisabled={formik.isSubmitting || !formik.isValid}
       onClose={() => {
         formik.resetForm();
         onClose && onClose();

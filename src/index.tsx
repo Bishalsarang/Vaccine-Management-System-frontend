@@ -1,40 +1,20 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { createRoot } from 'react-dom/client';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { RouterProvider } from 'react-router-dom';
 
 import reportWebVitals from './reportWebVitals';
 
 import './index.css';
 
-import BasePage from './pages/BasePage';
-import LoginPage from './pages/LoginPage';
-import DashboardPage from './pages/DashboardPage';
-import ProtectedPage from './pages/ProtectedPage';
-
 import store from './store';
 import { injectStore } from './utils/http';
-import SignupPage from './pages/SignupPage';
-import SignoutPage from './pages/SignoutPage';
 
+import { router } from './router';
+
+/* Injecting the redux store into the http client so that\
+// we can use accessToken and refreshToken from reduz store instead of looking up in local storage */
 injectStore(store);
-
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <BasePage />,
-    errorElement: <div>404 page not found</div>,
-    children: [
-      {
-        path: '/',
-        element: <ProtectedPage children={<DashboardPage />} />,
-      },
-      { path: '/signin', element: <LoginPage /> },
-      { path: '/signup', element: <SignupPage /> },
-      { path: '/signout', element: <SignoutPage /> },
-    ],
-  },
-]);
 
 // eslint-disable-next-line
 const container = document.getElementById('root')!;

@@ -13,40 +13,196 @@ import Button from '../Button';
 import AutoComplete from '../AutoComplete';
 import UploadButton from '../UploadButton';
 
+/**
+ * Represents the autocomplete options for a form field.
+ *
+ * @interface AutocompleteOptions
+ */
+type AutocompleteOptions = {
+  /**
+   * The options for the autocomplete.
+   *
+   * @type {string[]}
+   */
+  options: string[];
+
+  /**
+   * A function to set the options for the autocomplete.
+   *
+   * @type {((options: string[]) => void)}
+   */
+  setOptions: (options: string[]) => void;
+
+  /**
+   * The selected options for the autocomplete.
+   *
+   * @type {string[]}
+   */
+  selectedOptions: string[];
+};
+
+/**
+ * Represents the upload options for a form field.
+ *
+ * @interface UploadOptions
+ */
+type UploadOptions = {
+  /**
+   * The variant of the upload field.
+   *
+   * @type {("icon" | undefined)}
+   */
+  variant?: 'icon';
+
+  /**
+   * The accepted types for the upload field.
+   *
+   * @type {(string | undefined)}
+   */
+  acceptedTypes?: string;
+
+  /**
+   * The existing image URL for the upload field.
+   *
+   * @type {((string | null) | undefined)}
+   */
+  existingImageUrl?: string | null;
+};
+
+/**
+ * Represents the renderer for a form field.
+ *
+ * @type {("text" | "upload" | "textArea" | "checkbox" | "dropdown" | "autocomplete" | undefined)}
+ */
+type Renderer =
+  | 'text'
+  | 'upload'
+  | 'textArea'
+  | 'checkbox'
+  | 'dropdown'
+  | 'autocomplete';
+
+/**
+ * Represents a form field.
+ *
+ * @export
+ * @interface FormField
+ */
 export type FormField = {
+  /**
+   * The id of the form field. Used as the id attribute and as well as the key.
+   *
+   * @type {string}
+   */
   id: string;
+
+  /**
+   * The type of the form field (e.g. "text", "email", "password", etc.).
+   *
+   * @type {string}
+   */
   type?: string;
+
+  /**
+   * The label of the form field.
+   *
+   * @type {string}
+   */
   label: string;
+
+  /**
+   * The error label of the form field.
+   *
+   * @type {(string | string[])}
+   */
   errorLabel?: string | string[];
+
+  /**
+   * The placeholder text for the form field.
+   *
+   * @type {string}
+   */
   placeholder?: string;
-  autocompleteOptions?: {
-    options: string[];
-    setOptions: (options: string[]) => void;
-    selectedOptions: string[];
-  };
-  uploadOptions?: {
-    variant?: 'icon';
-    acceptedTypes?: string;
-    existingImageUrl?: string | null;
-  };
+
+  /**
+   * The autocomplete options for the form field. Applies to `autocomplete` renderer.
+   *
+   * @type {(AutocompleteOptions | undefined)}
+   */
+  autocompleteOptions?: AutocompleteOptions;
+
+  /**
+   * The upload options for the form field. Applies to `upload` renderer.
+   *
+   * @type {(UploadOptions | undefined)}
+   */
+  uploadOptions?: UploadOptions;
+
+  /**
+   * The dropdown options for the form field. Applies to `dropdown` renderer.
+   *
+   * @type {({ value: string; label: string }[] | undefined)}
+   */
   dropDownOptions?: { value: string; label: string }[];
-  renderer?:
-    | 'text'
-    | 'upload'
-    | 'textArea'
-    | 'checkbox'
-    | 'dropdown'
-    | 'autocomplete';
+
+  /**
+   * The renderer for the form field.
+   *
+   * @type {(Renderer | undefined)}
+   */
+  renderer?: Renderer;
 };
 
 export type FormikInstanceType = FormikProps<any>;
 
+// TODO: Refactor render conditions.
+
+/**
+ * Represents the properties of the RenderForm component.
+ *
+ * @interface RenderFormProps
+ */
 interface RenderFormProps {
+  /**
+   * The title of the form.
+   *
+   * @type {(string | undefined)}
+   */
   title?: string;
+
+  /**
+   * The Formik instance of the form.
+   *
+   * @type {FormikInstanceType}
+   */
   formikInstance: FormikInstanceType;
+
+  /**
+   * Indicates whether the form is being submitted.
+   *
+   * @type {(boolean | undefined)}
+   */
   isLoading?: boolean;
+
+  /**
+   * The fields of the form.
+   *
+   * @type {FormField[]}
+   */
   fields: FormField[];
+
+  /**
+   * Indicates whether the form has a border.
+   *
+   * @type {(boolean | undefined)}
+   */
   hasBorder?: boolean;
+
+  /**
+   * The label of the submit button.
+   *
+   * @type {(string | undefined)}
+   */
   submitButtonLabel?: string;
 }
 

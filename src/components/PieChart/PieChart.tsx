@@ -1,27 +1,74 @@
 import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
+
 import Skeleton from '../Skeleton';
 
-// TODO: Make the color configurable and make it consistent wioth table color.
+// TODO: Make the color configurable and make it consistent with table color.
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
+/**
+ * Represents the properties of the PieChartWrapper component.
+ *
+ * @interface PieChartWrapperProps
+ */
 interface PieChartWrapperProps {
+  /**
+   * The data to be plotted on the pie chart.
+   *
+   * @type {any[]}
+   */
   data?: any[];
+
+  /**
+   * The data key to use for the pie chart.
+   *
+   * @type {string}
+   */
   dataKey?: string;
+
+  /**
+   * The width of the pie chart.
+   *
+   * @type {number}
+   */
   width?: number;
+
+  /**
+   * The height of the pie chart.
+   *
+   * @type {number}
+   */
   height?: number;
+
+  /**
+   * The outer radius of the pie chart.
+   *
+   * @type {number}
+   */
   outerRadius?: number;
+
+  /**
+   * Indicates whether the pie chart is being loaded.
+   *
+   * @type {boolean}
+   */
   isLoading?: boolean;
+
+  /**
+   * The radius of the loading indicator.
+   *
+   * @type {number}
+   */
   loaderRadius?: number;
 }
 
 export function PieChartWrapper({
-  dataKey = 'value',
-  width = 350,
   data = [],
+  width = 350,
   height = 210,
-  outerRadius = 60,
-  isLoading = false,
   loaderRadius,
+  outerRadius = 60,
+  dataKey = 'value',
+  isLoading = false,
 }: PieChartWrapperProps) {
   const minValueDimension = loaderRadius || Math.min(width, height);
 
@@ -43,12 +90,15 @@ export function PieChartWrapper({
         data={data}
         cx={width / 2}
         fill="#8884d8"
-        cy={height / 2 - 30}
         dataKey={dataKey}
+        cy={height / 2 - 30}
         outerRadius={outerRadius}
       >
-        {data.map((_, index) => (
-          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+        {data.map((value, index) => (
+          <Cell
+            key={`cell-${value}-${index}`}
+            fill={COLORS[index % COLORS.length]}
+          />
         ))}
       </Pie>
       <Tooltip />
