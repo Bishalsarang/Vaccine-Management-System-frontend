@@ -11,7 +11,7 @@
  * @returns string
  */
 
-export const interpolate = (str: string, params: object = {}) => {
+export function interpolate(str: string, params: object = {}): string {
   let formattedString = str;
 
   for (const [key, value] of Object.entries(params)) {
@@ -24,4 +24,4 @@ export const interpolate = (str: string, params: object = {}) => {
   }
 
   return formattedString;
-};
+}

@@ -10,20 +10,25 @@ const username = Yup.string()
     CHARACTER_LIMIT_NAME,
     ERROR_MESSAGE.MAX_LENGTH('Username', CHARACTER_LIMIT_NAME),
   );
+
 const firstname = Yup.string()
   .max(
     CHARACTER_LIMIT_NAME,
     ERROR_MESSAGE.MAX_LENGTH('Firstname', CHARACTER_LIMIT_NAME),
   )
   .required();
+
 const lastname = Yup.string().max(
   CHARACTER_LIMIT_NAME,
   ERROR_MESSAGE.MAX_LENGTH('Lastname', CHARACTER_LIMIT_NAME),
 );
+
 const email = Yup.string().email().required();
+
 const password = Yup.string()
   .required()
   .min(8, ERROR_MESSAGE.MIN_LENGTH('Password', 8));
+
 const confirmPassword = Yup.string()
   .oneOf([Yup.ref('password')], 'Passwords do not match')
   .required();

@@ -1,10 +1,13 @@
 import * as Yup from 'yup';
+
 import { VACCINE_STAGES } from '../constants/base.constants';
+
 import { ERROR_MESSAGE } from '../utils/misc';
 
 const CHARACTER_LIMIT_20 = 20;
 const CHARACTER_LIMIT_255 = 255;
 const CHARACTER_LIMIT_1000 = 1000;
+
 const name = Yup.string()
   .required()
   .max(

@@ -1,20 +1,21 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
+
 import Sidebar from '../../components/Sidebar';
 
-import { SIDEBAR_NAV_ITEMS } from '../../constants/base.constants';
-
 import ContentPage from '../ContentPage';
+
+import { SIDEBAR_NAV_ITEMS } from '../../constants/base.constants';
 
 export default function DashboardPage() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  const handleSidebarClose = () => {
+  const handleSidebarClose = useCallback(() => {
     setIsSidebarOpen(false);
-  };
+  }, []);
 
-  const handleSidebarOpen = () => {
+  const handleSidebarOpen = useCallback(() => {
     setIsSidebarOpen(true);
-  };
+  }, []);
 
   return (
     <div className="flex h-screen">

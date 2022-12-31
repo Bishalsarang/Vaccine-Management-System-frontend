@@ -5,6 +5,8 @@ export const TOKEN_KEY = {
   REFRESH: 'refreshToken',
 };
 
+export const AUTHENTICATION_SCHEME_BEARER = 'Bearer';
+
 export const SIDEBAR_NAV_ITEMS = [
   {
     icon: FaVial,

@@ -8,8 +8,8 @@ import {
 
 import {
   login,
-  refreshAuthenticationToken,
   signup,
+  refreshAuthenticationToken,
 } from '../services/authService';
 
 import {
@@ -31,6 +31,7 @@ import {
 
 import * as storage from '../utils/storage';
 
+// Get the  value of access and refresh token from local storage to set the initial state on page refresh.
 const { accessToken, refreshToken } = getAuthenticationTokenFromLocalStorage();
 
 const initialState: UserState = {

@@ -3,13 +3,59 @@ import { TextField, Autocomplete, TextFieldProps } from '@mui/material';
 
 import Chip from '../Chip';
 
+/**
+ * Represents the properties of the AutoCompleteWrapper component.
+ *
+ * @interface AutoCompleteWrapperProps
+ */
 interface AutoCompleteWrapperProps {
+  /**
+   * The label of the autocomplete field.
+   *
+   * @type {string}
+   */
   label: string;
+
+  /**
+   * The options for the autocomplete field.
+   *
+   * @type {(string[] | undefined)}
+   */
   options?: string[];
+
+  /**
+   * The text displayed when there are no options available.
+   *
+   * @type {(string | undefined)}
+   */
   noOptionsText?: string;
+
+  /**
+   * The selected options for the autocomplete field.
+   *
+   * @type {(string[] | undefined)}
+   */
   selectedOptions?: string[];
+
+  /**
+   * The options for the text field component used in the autocomplete field.
+   *
+   * @type {(TextFieldProps | undefined)}
+   */
   textFieldOptions?: TextFieldProps;
+
+  /**
+   * The setOptions handler for the autocomplete field.
+   *
+   * @type {((options: string[]) => void)}
+   */
   setOptions: (options: string[]) => void;
+
+  /**
+   * The setSelectedOptions handler for the autocomplete field.
+   *
+   * @type {((options: string[]) => void)}
+   */
   setSelectedOptions: (options: string[]) => void;
 }
 
@@ -50,8 +96,8 @@ export function AutoCOmpleteWrapper({
 
   const tagRenderer = useCallback(
     (values: string[]) => {
-      return values.map((value, index) => (
-        <Chip key={index} label={value} onDelete={() => handleDelete(value)} />
+      return values.map((value) => (
+        <Chip key={value} label={value} onDelete={() => handleDelete(value)} />
       ));
     },
     [handleDelete],
@@ -76,9 +122,12 @@ export function AutoCOmpleteWrapper({
     [handleKeyDown, label, text, textFieldOptions],
   );
 
-  const handleChange = useCallback((_event: any, values: string[]) => {
-    setSelectedOptions(values);
-  }, []);
+  const handleChange = useCallback(
+    (_event: any, values: string[]) => {
+      setSelectedOptions(values);
+    },
+    [setSelectedOptions],
+  );
 
   return (
     <Autocomplete
