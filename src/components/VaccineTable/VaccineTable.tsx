@@ -94,6 +94,10 @@ function VaccineTable({
 
   const COLUMNS = React.useMemo(
     () => [
+      columnHelper.display({
+        id: 'actions',
+        cell: threeDotMenu,
+      }),
       columnHelper.accessor('name', {
         header: 'Name',
       }),
@@ -107,6 +111,9 @@ function VaccineTable({
       columnHelper.accessor('numberOfDoses', {
         header: '# Doses',
         cell: (info) => <div className="text-right">{info.getValue()}</div>,
+      }),
+      columnHelper.accessor('companyName', {
+        header: 'Company',
       }),
       columnHelper.accessor('isMandatory', {
         header: 'Mandatory?',
@@ -127,10 +134,6 @@ function VaccineTable({
       columnHelper.accessor('updatedAt', {
         header: 'Updated At',
         cell: (info) => formateDateToShort(info.getValue()),
-      }),
-      columnHelper.display({
-        id: 'actions',
-        cell: threeDotMenu,
       }),
     ],
     [],

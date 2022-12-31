@@ -2,6 +2,7 @@ import { Card, CardContent, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { Word } from 'react-wordcloud';
 import { getAllergies } from '../../services/vaccineService';
+import { showErrorMessage } from '../../utils/toast';
 
 import WordCloudWrapper from '../WordCloud';
 
@@ -13,11 +14,16 @@ export function VaccineAllergyCard() {
   useEffect(() => {
     async function fetchAllergiesAndSideEffects() {
       setIsLoading(true);
-      const result = await getAllergies();
-      setIsLoading(false);
-      setVaccineAllergies(
-        result.map(({ name, count }) => ({ text: name, value: count })),
-      );
+      try {
+        const result = await getAllergies();
+        setVaccineAllergies(
+          result.map(({ name, count }) => ({ text: name, value: count })),
+        );
+      } catch (err: any) {
+        showErrorMessage(err);
+      } finally {
+        setIsLoading(false);
+      }
     }
 
     fetchAllergiesAndSideEffects();

@@ -7,6 +7,7 @@ import {
   getVaccineStages,
   FieldCountWrapper,
 } from '../../services/vaccineService';
+import { showErrorMessage } from '../../utils/toast';
 
 function VaccineStageCard() {
   const [isLoading, setIsLoading] = useState(false);
@@ -16,9 +17,15 @@ function VaccineStageCard() {
   useEffect(() => {
     async function fetchVaccines() {
       setIsLoading(true);
-      const result = await getVaccineStages();
-      setIsLoading(false);
-      setVaccineStages(result);
+
+      try {
+        const result = await getVaccineStages();
+        setVaccineStages(result);
+      } catch (err: any) {
+        showErrorMessage(err);
+      } finally {
+        setIsLoading(false);
+      }
     }
 
     fetchVaccines();
