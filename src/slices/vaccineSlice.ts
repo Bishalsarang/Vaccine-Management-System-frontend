@@ -15,7 +15,7 @@ import {
   updateVaccine,
 } from '../services/vaccineService';
 
-const initialState: VaccineState = {
+export const initialState: VaccineState = {
   error: null,
   vaccines: [],
   isLoading: false,
@@ -73,40 +73,49 @@ const vaccineSlice = createSlice({
   name: 'vaccine',
   initialState,
   reducers: {},
-  extraReducers: {
-    [createVaccineThunk.pending as any]: (state) => {
+  extraReducers(builder) {
+    builder.addCase(createVaccineThunk.pending, (state) => {
       state.isLoading = true;
-    },
-    [createVaccineThunk.fulfilled as any]: (state, { payload }) => {
+    });
+    builder.addCase(createVaccineThunk.fulfilled, (state, { payload }) => {
       state.isLoading = false;
       state.vaccines.push(payload);
-    },
-    [createVaccineThunk.rejected as any]: (state, { payload }) => {
-      state.isLoading = false;
-      state.error = payload;
-    },
-    [getVaccineThunk.pending as any]: (state) => {
-      state.isLoading = true;
-    },
-    [getVaccineThunk.fulfilled as any]: (state, { payload }) => {
-      state.isLoading = false;
-      state.vaccines = payload;
-    },
-    [getVaccineThunk.rejected as any]: (state, { payload }) => {
-      state.isLoading = false;
-      state.error = payload;
-    },
-    [deleteVaccineThunk.pending as any]: (state) => {
-      state.isLoading = true;
-    },
-    [deleteVaccineThunk.fulfilled as any]: (state, { payload }) => {
+    });
+    builder.addCase(
+      createVaccineThunk.rejected as any,
+      (state, { payload }) => {
+        state.isLoading = false;
+        state.error = payload;
+      },
+    );
+    builder.addCase(getVaccineThunk.fulfilled, (state, { payload }) => {
       state.isLoading = false;
       state.vaccines = payload;
-    },
-    [deleteVaccineThunk.rejected as any]: (state, { payload }) => {
+    });
+    builder.addCase(getVaccineThunk.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(getVaccineThunk.rejected as any, (state, { payload }) => {
       state.isLoading = false;
       state.error = payload;
-    },
+    });
+    builder.addCase(deleteVaccineThunk.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(
+      deleteVaccineThunk.fulfilled as any,
+      (state, { payload }) => {
+        state.isLoading = false;
+        state.vaccines = payload;
+      },
+    );
+    builder.addCase(
+      deleteVaccineThunk.rejected as any,
+      (state, { payload }) => {
+        state.isLoading = false;
+        state.error = payload;
+      },
+    );
   },
 });
 
