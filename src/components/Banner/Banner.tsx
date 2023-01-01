@@ -13,7 +13,7 @@ import * as routes from '../../constants/routesConstants';
  *
  * @interface BannerProps
  */
-interface BannerProps {
+export interface BannerProps {
   /**
    * Indicates whether the banner is on a login page.
    *

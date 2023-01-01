@@ -16,8 +16,8 @@ jest.mock('../../components/Sidebar', () => {
       data-testid="sidebar"
       className={isOpen ? 'opened' : 'closed'}
     >
-      <button data-testid="sidebar-open-button" onClick={onOpen}>Open</button>
-      <button data-testid="sidebar-close-button" onClick={onClose}>Close</button>
+      <button data-testid="open-button" onClick={onOpen}>Open</button>
+      <button data-testid="close-button" onClick={onClose}>Close</button>
     </div>
   );}
 });
@@ -47,11 +47,11 @@ describe('DashboardPage', () => {
     expect(sidebar).toHaveClass(closeClass);
 
     // click open, then the sidebar should have opened class
-    await userEvent.click(screen.getByTestId('sidebar-open-button'));
+    await userEvent.click(screen.getByTestId('open-button'));
     expect(sidebar).toHaveClass(openClass);
 
     // click close, then the sidebar should have closed class
-    await userEvent.click(screen.getByTestId('sidebar-close-button'));
+    await userEvent.click(screen.getByTestId('close-button'));
     expect(sidebar).toHaveClass(closeClass);
   });
 });
