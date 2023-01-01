@@ -19,7 +19,7 @@ import { APPLICATION_INFORMATION } from '../../constants/lang.constants';
  *
  * @interface SidebarProps
  */
-interface SidebarProps {
+export interface SidebarProps {
   /**
    * The navigation items to display in the sidebar.
    *
