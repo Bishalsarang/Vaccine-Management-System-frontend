@@ -34,7 +34,7 @@ import * as storage from '../utils/storage';
 // Get the  value of access and refresh token from local storage to set the initial state on page refresh.
 const { accessToken, refreshToken } = getAuthenticationTokenFromLocalStorage();
 
-const initialState: UserState = {
+export const initialState: UserState = {
   error: null,
   accessToken,
   refreshToken,
@@ -110,20 +110,23 @@ const userSlice = createSlice({
       storage.clear();
     },
   },
-  extraReducers: {
-    [loginUser.pending as any]: userLoginPendingReducer,
-    [loginUser.rejected as any]: userLoginRejectedReducer,
-    [loginUser.fulfilled as any]: userLoginFulfilledReducer,
-    [signupUser.pending as any]: userSignupPendingReducer,
-    [signupUser.rejected as any]: userSignupRejectedReducer,
-    [signupUser.fulfilled as any]: userSignupFulfilledReducer,
-    [refreshTokenThunk.fulfilled as any]: (state, { payload }) => {
-      state.isLoading = false;
-      state.success = true;
-      state.userInfo = getUserInfoFromToken(payload.accessToken);
-      state.accessToken = payload.accessToken;
-      state.refreshToken = payload.refreshToken;
-    },
+  extraReducers(builder) {
+    builder.addCase(loginUser.pending, userLoginPendingReducer);
+    builder.addCase(loginUser.rejected as any, userLoginRejectedReducer);
+    builder.addCase(loginUser.fulfilled, userLoginFulfilledReducer);
+    builder.addCase(signupUser.pending, userSignupPendingReducer);
+    builder.addCase(signupUser.rejected as any, userSignupRejectedReducer);
+    builder.addCase(signupUser.fulfilled as any, userSignupFulfilledReducer);
+    builder.addCase(
+      refreshTokenThunk.fulfilled as any,
+      (state, { payload }) => {
+        state.isLoading = false;
+        state.success = true;
+        state.userInfo = getUserInfoFromToken(payload.accessToken);
+        state.accessToken = payload.accessToken;
+        state.refreshToken = payload.refreshToken;
+      },
+    );
   },
 });
 
