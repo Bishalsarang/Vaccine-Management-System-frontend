@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 import { Add as AddIcon } from '@mui/icons-material';
-import { Card, CardContent, Typography } from '@mui/material';
 
 import VaccineDialog from '../../components/VaccineDialog';
 import FabButton from '../../components/FabButton/FabButton';
@@ -21,7 +20,8 @@ import { deleteVaccineThunk, getVaccineThunk } from '../../slices/vaccineSlice';
 import { showErrorMessage, showSuccessMessage } from '../../utils/toast';
 import VaccineStageCard from '../../components/VaccineStageCard/VaccineStageCard';
 import VaccineAllergycard from '../../components/VaccineAllergyCard';
-import CommonTable from '../../components/VaccineTable/VaccineTable';
+import VaccineTable from '../../components/VaccineTable/VaccineTable';
+import VaccineDoseCard from '../../components/VaccineDoseCard';
 
 const INITIAL_VACCINE: CreateVaccinePayload = {
   name: '',
@@ -108,43 +108,8 @@ function VaccinePage() {
   return (
     <>
       <div className="flex flex-wrap">
-        <div className="w-full p-3 md:w-1/3">
-          <Card className="h-full">
-            <CardContent>
-              <Typography className="text-center" component="div" variant="h5">
-                Summary
-              </Typography>
-
-              <Typography
-                component="div"
-                variant="subtitle1"
-                color="text.secondary"
-              >
-                Total Vaccines: <span>{100}</span>
-              </Typography>
-              <Typography
-                component="div"
-                variant="subtitle1"
-                color="text.secondary"
-              >
-                Mandatory Vaccines: <span>{40}</span>
-              </Typography>
-              <Typography
-                component="div"
-                variant="subtitle1"
-                color="text.secondary"
-              >
-                Non Mandatory Vaccines: <span>{60}</span>
-              </Typography>
-              <Typography
-                component="div"
-                variant="subtitle1"
-                color="text.secondary"
-              >
-                Average Dose: <span>{12}</span>
-              </Typography>
-            </CardContent>
-          </Card>
+        <div className="min-h-full w-full p-3 md:w-1/3">
+          <VaccineDoseCard />
         </div>
 
         <div className="min-h-full w-full p-3 md:w-1/3">
@@ -174,7 +139,8 @@ function VaccinePage() {
         isOpen={vaccineDeleteDialogOptions.isOpen}
         message="Are you sure you want to delete the vaccine"
       ></ConfirmationDialog>
-      <CommonTable
+
+      <VaccineTable
         openVaccineDialog={openVaccineDialog}
         openVaccineDeleteDialog={openVaccineDeleteDialog}
       />
