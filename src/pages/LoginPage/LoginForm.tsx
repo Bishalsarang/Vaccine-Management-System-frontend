@@ -8,11 +8,11 @@ import { LOGIN_FORM } from '../../constants/lang.constants';
 import { LoginPayload } from '../../interfaces/auth.interface';
 
 interface Props {
-  isLoading: boolean;
+  isLoading?: boolean;
   handleSubmit: (payload: LoginPayload) => void;
 }
 
-export default function LoginForm({ isLoading, handleSubmit }: Props) {
+export default function LoginForm({ isLoading = false, handleSubmit }: Props) {
   const formik: FormikProps<LoginPayload> = useFormik({
     initialValues: {
       username: '',

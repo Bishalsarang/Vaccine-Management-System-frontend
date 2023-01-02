@@ -1,10 +1,11 @@
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import LoginPage from '../../pages/LoginPage';
 import { BannerProps } from '../../components/Banner/Banner';
 
 import { renderWithProviders } from '../../utils/test-utils';
+import LoginForm from '../../pages/LoginPage/LoginForm';
 
 jest.mock('../../components/Banner', () => {
   return ({ isLoginPage }: BannerProps) => {
@@ -66,5 +67,30 @@ describe('Login Page', () => {
     expect(screen.getByRole('button', { name: /login/i })).not.toHaveAttribute('aria-disabled')
   });
 });
+
+describe('Login Form', () => {
+  test('render the login form and submit', async () => {
+    const handleSubmit = jest.fn()
+    renderWithProviders(<LoginForm handleSubmit={handleSubmit} />)
+    const user = userEvent.setup()
+
+    const usernameField = screen.getByLabelText(/username/i);
+    const passwordField = screen.getByLabelText(/password/i);
+
+    await user.type(usernameField, 'John')
+    await user.type(passwordField, '12345678')
+
+    await user.click(screen.getByRole('button', { name: /login/i }))
+  
+    await waitFor(() =>
+      expect(handleSubmit).toHaveBeenCalledWith({
+        username: 'John',
+        password: '12345678',
+      }),
+    )
+
+
+    expect(handleSubmit).toHaveBeenCalledTimes(1);
+})})
 
 
