@@ -90,7 +90,7 @@ function VaccineTable({
 
   useEffect(() => {
     dispatch(getVaccineThunk());
-  }, []);
+  }, [dispatch]);
 
   const COLUMNS = React.useMemo(
     () => [
@@ -136,7 +136,7 @@ function VaccineTable({
         cell: (info) => formateDateToShort(info.getValue()),
       }),
     ],
-    [],
+    [threeDotMenu],
   );
 
   const SKELETON_COLUMNS = COLUMNS.map((column) => ({

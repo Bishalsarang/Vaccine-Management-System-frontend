@@ -13,13 +13,9 @@ export default function SignoutPage() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  function logout() {
-    dispatch(logoutUser());
-  }
-
   useEffect(() => {
-    logout();
-  }, []);
+    dispatch(logoutUser());
+  }, [dispatch]);
 
   useEffect(() => {
     if (accessToken) {

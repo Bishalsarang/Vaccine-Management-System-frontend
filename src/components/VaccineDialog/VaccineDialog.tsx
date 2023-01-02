@@ -15,7 +15,7 @@ import {
   PatchVaccinePayload,
   CreateVaccinePayload,
 } from '../../interfaces/vaccineInterface';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { CONTENT_TYPE } from '../../constants/http.constants';
 import { showSuccessMessage } from '../../utils/toast';
 
@@ -147,16 +147,21 @@ const VaccineDialog = ({
     },
   ];
 
+  const resetFormAndCloseDialog = useCallback(
+    function () {
+      formik.resetForm();
+      onClose();
+    },
+    [formik, onClose],
+  );
+
   return (
     <Dialog
       open={isOpen}
-      isAccceptButtonDisabled={formik.isSubmitting || !formik.isValid}
-      onClose={() => {
-        formik.resetForm();
-        onClose && onClose();
-      }}
-      heading={mode === 'create' ? 'Create Vaccine' : 'Update Vaccine'}
       onAccept={formik.handleSubmit}
+      onClose={resetFormAndCloseDialog}
+      isAccceptButtonDisabled={formik.isSubmitting || !formik.isValid}
+      heading={mode === 'create' ? 'Create Vaccine' : 'Update Vaccine'}
     >
       <Form hasBorder={false} fields={FIELDS} formikInstance={formik}></Form>
     </Dialog>
