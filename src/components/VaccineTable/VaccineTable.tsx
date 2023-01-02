@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useCallback } from 'react';
 
 import Box from '@mui/material/Box';
 import { Avatar } from '@mui/material';
@@ -25,7 +26,6 @@ import { getVaccineThunk } from '../../slices/vaccineSlice';
 import { VACCINE_STAGES } from '../../constants/base.constants';
 
 import { formateDateToShort } from '../../utils/date';
-import { useCallback } from 'react';
 
 function renderStage(stage: VaccineStage) {
   switch (stage) {
@@ -53,6 +53,8 @@ export default function VaccineTable({
   openVaccineDialog,
   openVaccineDeleteDialog,
 }: VaccineTableProps) {
+  const [pageSize, setPageSize] = React.useState(10);
+
   const { vaccines = [], isLoading } = useAppSelector((state) => state.vaccine);
   const dispatch = useAppDispatch();
 
@@ -182,15 +184,31 @@ export default function VaccineTable({
   );
 
   return (
-    <Box sx={{ height: 500, width: '100%' }}>
+    <Box
+      sx={{
+        height: 500,
+        width: '100%',
+        boxShadow: 2,
+        '& .MuiDataGrid-cell:hover': {
+          color: 'primary.main',
+        },
+
+        '& .MuiDataGrid-actionsCell': {
+          background: 'red',
+          color: 'red',
+        },
+      }}
+    >
       <DataGrid
         rows={vaccines}
         columns={columns}
         density="standard"
+        pageSize={pageSize}
         loading={isLoading}
         disableSelectionOnClick
-        onRowDoubleClick={handleOpenEditDialog}
+        onPageSizeChange={setPageSize}
         rowsPerPageOptions={[5, 10, 50, 100]}
+        onRowDoubleClick={handleOpenEditDialog}
         experimentalFeatures={{ newEditingApi: true }}
       />
     </Box>
