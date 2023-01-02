@@ -1,39 +1,31 @@
-import React, { useCallback, useEffect } from 'react';
+import * as React from 'react';
 
-import {
-  flexRender,
-  CellContext,
-  useReactTable,
-  getCoreRowModel,
-  createColumnHelper,
-} from '@tanstack/react-table';
+import Box from '@mui/material/Box';
+import { Avatar } from '@mui/material';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
 
 import { MdEdit, MdDelete } from 'react-icons/md';
+import { BsFileEarmarkImage } from 'react-icons/bs';
 import { VscError, VscPass } from 'react-icons/vsc';
 
 import Chip from '../Chip';
-import SkeletonWrapper from '../../components/Skeleton';
-import ThreeDotMenu from '../../components/ThreeDotMenu';
+import ThreeDotMenu from '../ThreeDotMenu';
+
+import {
+  Vaccine,
+  VaccineStage,
+  CreateVaccinePayload,
+} from '../../interfaces/vaccineInterface';
+import { DialogOptions } from '../../interfaces/commonInterface';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
 import { getVaccineThunk } from '../../slices/vaccineSlice';
-import {
-  CreateVaccinePayload,
-  Vaccine,
-  VaccineStage,
-} from '../../interfaces/vaccineInterface';
+
+import { VACCINE_STAGES } from '../../constants/base.constants';
 
 import { formateDateToShort } from '../../utils/date';
-import { VACCINE_STAGES } from '../../constants/base.constants';
-import { DialogOptions } from '../../interfaces/commonInterface';
-
-const columnHelper = createColumnHelper<Vaccine>();
-
-interface VaccineTableProps {
-  openVaccineDialog: (options: DialogOptions<CreateVaccinePayload>) => void;
-  openVaccineDeleteDialog: (vaccine: Vaccine) => void;
-}
+import { useCallback } from 'react';
 
 function renderStage(stage: VaccineStage) {
   switch (stage) {
@@ -52,155 +44,155 @@ function renderStage(stage: VaccineStage) {
   }
 }
 
-function VaccineTable({
+interface VaccineTableProps {
+  openVaccineDialog: (options: DialogOptions<CreateVaccinePayload>) => void;
+  openVaccineDeleteDialog: (vaccine: Vaccine) => void;
+}
+
+export default function VaccineTable({
   openVaccineDialog,
   openVaccineDeleteDialog,
 }: VaccineTableProps) {
   const { vaccines = [], isLoading } = useAppSelector((state) => state.vaccine);
   const dispatch = useAppDispatch();
 
-  const skeleton = useCallback(() => <SkeletonWrapper height={'20px'} />, []);
-  const threeDotMenu = useCallback(
-    (info: CellContext<Vaccine, unknown>) => (
-      <ThreeDotMenu
-        menuItems={[
-          {
-            label: 'Edit',
-            icon: <MdEdit size={24} />,
-            onClick: () => {
-              openVaccineDialog({
-                isOpen: true,
-                mode: 'edit',
-                data: info.cell.row.original,
-              });
-            },
-          },
-          {
-            label: 'Delete',
-            icon: <MdDelete size={24} />,
-            onClick: () => {
-              openVaccineDeleteDialog(info.cell.row.original);
-            },
-          },
-        ]}
-      />
-    ),
-    [openVaccineDialog, openVaccineDeleteDialog],
-  );
-
-  useEffect(() => {
+  React.useEffect(() => {
     dispatch(getVaccineThunk());
   }, [dispatch]);
 
-  const COLUMNS = React.useMemo(
+  const handleOpenEditDialog = useCallback(
+    (params: { row: any }) => {
+      openVaccineDialog({
+        isOpen: true,
+        mode: 'edit',
+        data: params.row,
+      });
+    },
+    [openVaccineDialog],
+  );
+
+  const columns: GridColDef[] = React.useMemo(
     () => [
-      columnHelper.display({
-        id: 'actions',
-        cell: threeDotMenu,
-      }),
-      columnHelper.accessor('name', {
-        header: 'Name',
-      }),
-      columnHelper.accessor('stage', {
-        header: 'Stage',
-        cell: (info) => renderStage(info.getValue()),
-      }),
-      columnHelper.accessor('description', {
-        header: 'Description',
-      }),
-      columnHelper.accessor('numberOfDoses', {
-        header: '# Doses',
-        cell: (info) => <div className="text-right">{info.getValue()}</div>,
-      }),
-      columnHelper.accessor('companyName', {
-        header: 'Company',
-      }),
-      columnHelper.accessor('isMandatory', {
-        header: 'Mandatory?',
-        cell: (info) => (
-          <span className="flex justify-center">
-            {info.getValue() ? (
-              <VscPass color="green" />
-            ) : (
-              <VscError color="red" />
-            )}
-          </span>
-        ),
-      }),
-      columnHelper.accessor('createdAt', {
-        header: 'Created At',
-        cell: (info) => formateDateToShort(info.getValue()),
-      }),
-      columnHelper.accessor('updatedAt', {
-        header: 'Updated At',
-        cell: (info) => formateDateToShort(info.getValue()),
-      }),
+      {
+        field: 'actions',
+        headerName: '',
+        type: 'actions',
+        width: 20,
+        headerClassName: 'tes',
+
+        renderCell(params) {
+          return (
+            <ThreeDotMenu
+              menuItems={[
+                {
+                  label: 'Edit',
+                  icon: <MdEdit size={24} />,
+                  onClick: () => handleOpenEditDialog(params),
+                },
+                {
+                  label: 'Delete',
+                  icon: <MdDelete size={24} />,
+                  onClick: () => {
+                    openVaccineDeleteDialog(params.row);
+                  },
+                },
+              ]}
+            />
+          );
+        },
+      },
+      {
+        field: 'imageUrl',
+        headerName: 'Image',
+        width: 60,
+        sortable: false,
+
+        renderCell(params) {
+          return (
+            <Avatar variant="square" src={params.row.imageUrl}>
+              <BsFileEarmarkImage />
+            </Avatar>
+          );
+        },
+      },
+      {
+        field: 'name',
+        headerName: 'Name',
+        width: 150,
+      },
+      {
+        field: 'stage',
+        headerName: 'Stage',
+        width: 150,
+        type: 'singleSelect',
+        valueOptions: Object.values(VACCINE_STAGES),
+        renderCell(params) {
+          return renderStage(params.row.stage);
+        },
+        maxWidth: 200,
+      },
+      {
+        field: 'description',
+        headerName: 'Description',
+        width: 400,
+      },
+      {
+        field: 'numberOfDoses',
+        headerName: '# Doses',
+        width: 90,
+      },
+      {
+        field: 'companyName',
+        headerName: 'Company',
+      },
+      {
+        field: 'isMandatory',
+        headerName: 'Mandatory?',
+        width: 90,
+        renderCell(params) {
+          return (
+            <span className="flex justify-center">
+              {params.row.isMandatory ? (
+                <VscPass color="green" />
+              ) : (
+                <VscError color="red" />
+              )}
+            </span>
+          );
+        },
+      },
+      {
+        field: 'createdAt',
+        headerName: 'Created At',
+        width: 150,
+        renderCell(params) {
+          return formateDateToShort(params.row.createdAt);
+        },
+      },
+      {
+        field: 'updatedAt',
+        headerName: 'Updated At',
+        width: 150,
+        renderCell(params) {
+          return formateDateToShort(params.row.updatedAt);
+        },
+      },
     ],
-    [threeDotMenu],
+    [openVaccineDeleteDialog, handleOpenEditDialog],
   );
-
-  const SKELETON_COLUMNS = COLUMNS.map((column) => ({
-    ...column,
-    cell: skeleton,
-  }));
-
-  const columns = React.useMemo(
-    () => (isLoading ? SKELETON_COLUMNS : COLUMNS),
-    [isLoading, SKELETON_COLUMNS, COLUMNS],
-  );
-
-  const data = React.useMemo(
-    () => (isLoading ? Array(10).fill({}) : vaccines),
-    [vaccines, isLoading],
-  );
-
-  const table = useReactTable({
-    data,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-  });
 
   return (
-    <div className="mt-4  max-h-[calc(100vh-0px)] overflow-auto shadow-lg">
-      <table className="w-full">
-        <thead>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <th
-                  key={header.id}
-                  className="sticky top-0 bg-gray-700 p-3 text-left text-white"
-                >
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext(),
-                      )}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody>
-          {table.getRowModel().rows.map((row) => (
-            <tr
-              key={row.id}
-              className="m-1 cursor-pointer shadow-sm hover:bg-zinc-50"
-            >
-              {row.getVisibleCells().map((cell) => (
-                <td key={cell.id} className="p-4">
-                  <div className="line-clamp-4">
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </div>
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <Box sx={{ height: 500, width: '100%' }}>
+      <DataGrid
+        rows={vaccines}
+        columns={columns}
+        density="standard"
+        loading={isLoading}
+        disableSelectionOnClick
+        onRowDoubleClick={handleOpenEditDialog}
+        rowsPerPageOptions={[5, 10, 50, 100]}
+        experimentalFeatures={{ newEditingApi: true }}
+      />
+    </Box>
   );
 }
-
-export default VaccineTable;
