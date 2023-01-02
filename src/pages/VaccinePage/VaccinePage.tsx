@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { Add as AddIcon } from '@mui/icons-material';
 import { Card, CardContent, Typography } from '@mui/material';
 
-import VaccineTable from '../../components/VaccineTable';
 import VaccineDialog from '../../components/VaccineDialog';
 import FabButton from '../../components/FabButton/FabButton';
 import ConfirmationDialog from '../../components/ConfirmationDialog';
@@ -22,6 +21,7 @@ import { deleteVaccineThunk, getVaccineThunk } from '../../slices/vaccineSlice';
 import { showErrorMessage, showSuccessMessage } from '../../utils/toast';
 import VaccineStageCard from '../../components/VaccineStageCard/VaccineStageCard';
 import VaccineAllergycard from '../../components/VaccineAllergyCard';
+import CommonTable from '../../components/VaccineTable/VaccineTable';
 
 const INITIAL_VACCINE: CreateVaccinePayload = {
   name: '',
@@ -174,7 +174,7 @@ function VaccinePage() {
         isOpen={vaccineDeleteDialogOptions.isOpen}
         message="Are you sure you want to delete the vaccine"
       ></ConfirmationDialog>
-      <VaccineTable
+      <CommonTable
         openVaccineDialog={openVaccineDialog}
         openVaccineDeleteDialog={openVaccineDeleteDialog}
       />

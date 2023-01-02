@@ -47,8 +47,8 @@ function FabButton({
         color="secondary"
         aria-label="add"
         sx={{
-          right: 80,
-          bottom: 6,
+          right: 60,
+          bottom: 80,
           position: 'absolute',
           ...styles,
         }}
