@@ -86,6 +86,9 @@
     "collectCoverageFrom": [
       "src/**/*.{ts,tsx}",
       "!src/schemas/**/*",
+      "!src/constants/**/*",
+      "!src/interfaces/**/*",
+      "!src/router/**/*",
       "!src/mocks/**/*"
     ]
   }
