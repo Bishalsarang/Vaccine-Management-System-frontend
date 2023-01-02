@@ -88,6 +88,20 @@ const vaccineSlice = createSlice({
         state.error = payload;
       },
     );
+    builder.addCase(updateVaccineThunk.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(updateVaccineThunk.fulfilled, (state, { payload }) => {
+      state.isLoading = false;
+      state.vaccines.push(payload);
+    });
+    builder.addCase(
+      updateVaccineThunk.rejected as any,
+      (state, { payload }) => {
+        state.isLoading = false;
+        state.error = payload;
+      },
+    );
     builder.addCase(getVaccineThunk.fulfilled, (state, { payload }) => {
       state.isLoading = false;
       state.vaccines = payload;

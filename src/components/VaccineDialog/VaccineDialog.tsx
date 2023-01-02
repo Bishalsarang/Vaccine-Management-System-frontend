@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import Dialog from '../Dialog';
 import Form, { FormField } from '../../components/Form';
 
-import { useAppDispatch } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { vaccineSchema } from '../../schemas/vaccineSchema';
 import {
   getVaccineThunk,
@@ -18,6 +18,7 @@ import {
 import { useCallback, useEffect, useState } from 'react';
 import { CONTENT_TYPE } from '../../constants/http.constants';
 import { showSuccessMessage } from '../../utils/toast';
+import { Backdrop, CircularProgress } from '@mui/material';
 
 interface VaccineDialogProps {
   isOpen?: boolean;
@@ -42,6 +43,8 @@ const VaccineDialog = ({
     imageUrl: null,
   },
 }: VaccineDialogProps) => {
+  const { isLoading } = useAppSelector((state) => state.vaccine);
+
   const [allergiesOptions, setAllergiesOptions] = useState<string[]>([]);
 
   const dispatch = useAppDispatch();
@@ -158,12 +161,18 @@ const VaccineDialog = ({
   return (
     <Dialog
       open={isOpen}
+      isLoading={isLoading}
       onAccept={formik.handleSubmit}
       onClose={resetFormAndCloseDialog}
       isAccceptButtonDisabled={formik.isSubmitting || !formik.isValid}
       heading={mode === 'create' ? 'Create Vaccine' : 'Update Vaccine'}
     >
-      <Form hasBorder={false} fields={FIELDS} formikInstance={formik}></Form>
+      <Form
+        isLoading={isLoading}
+        hasBorder={false}
+        fields={FIELDS}
+        formikInstance={formik}
+      ></Form>
     </Dialog>
   );
 };

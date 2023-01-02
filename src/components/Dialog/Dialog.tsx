@@ -1,9 +1,11 @@
 import {
   Dialog,
+  Backdrop,
   DialogTitle,
   DialogProps,
   DialogActions,
   DialogContent,
+  CircularProgress,
 } from '@mui/material';
 
 import Button from '../Button';
@@ -70,6 +72,13 @@ interface DialogWrapperProps extends DialogProps {
    * @type {React.ReactNode}
    */
   children: React.ReactNode;
+
+  /**
+   * The loading tstae of dialog.
+   *
+   * @type {boolean}
+   */
+  isLoading?: boolean;
 }
 
 export function DialogWrapper({
@@ -78,6 +87,7 @@ export function DialogWrapper({
   onAccept,
   children,
   open = false,
+  isLoading = false,
   cancelButtonText = 'Cancel',
   acceptButtonText = 'Accept',
   isAccceptButtonDisabled = false,
@@ -86,7 +96,18 @@ export function DialogWrapper({
   return (
     <Dialog fullWidth open={open} onClose={onClose} {...rest}>
       <DialogTitle>{heading}</DialogTitle>
-      <DialogContent>{children}</DialogContent>
+      <DialogContent>
+        {isLoading && (
+          <Backdrop
+            open
+            sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          >
+            <CircularProgress color="inherit" />
+          </Backdrop>
+        )}
+
+        {children}
+      </DialogContent>
       <DialogActions>
         <Button
           color="secondary"
