@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 
-import { VACCINE_STAGES } from '../constants/base.constants';
+import { VACCINE_STAGES } from '../constants/baseConstants';
 
 import { ERROR_MESSAGE } from '../utils/misc';
 

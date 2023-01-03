@@ -23,7 +23,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 
 import { getVaccineThunk } from '../../slices/vaccineSlice';
 
-import { VACCINE_STAGES } from '../../constants/base.constants';
+import { VACCINE_STAGES } from '../../constants/baseConstants';
 
 import { formateDateToShort } from '../../utils/date';
 

@@ -1,4 +1,4 @@
-import { CONTENT_TYPE } from './../constants/http.constants';
+import { CONTENT_TYPE } from '../constants/httpConstants';
 
 import { axiosInstance } from '../utils/http';
 import { interpolate } from '../utils/string';
@@ -14,7 +14,7 @@ import {
   VACCINES_ID,
   VACCINES_STAGES,
   VACCINES_ALLERGIES,
-} from '../constants/endpoints.constants';
+} from '../constants/endpointsConstants';
 
 export interface FieldCountWrapper {
   name: string;

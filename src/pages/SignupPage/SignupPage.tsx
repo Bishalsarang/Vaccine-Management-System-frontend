@@ -7,7 +7,7 @@ import Form, { FormField } from '../../components/Form';
 
 import { userSignupSchema } from '../../schemas/userSchema';
 
-import { SIGNUP_FORM } from '../../constants/lang.constants';
+import { SIGNUP_FORM } from '../../constants/langConstants';
 
 import { signupUser } from '../../slices/userSlice';
 

@@ -4,13 +4,13 @@ import {
   LOGIN,
   SIGNUP,
   REFRESH_ACCESS_TOKEN,
-} from '../constants/endpoints.constants';
+} from '../constants/endpointsConstants';
 
 import {
   LoginPayload,
   SignupPayload,
   AuthenticationToken,
-} from '../interfaces/auth.interface';
+} from '../interfaces/authInterface';
 
 /**
  * Logs in the user with the provided credentials.

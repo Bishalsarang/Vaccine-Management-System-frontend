@@ -12,7 +12,7 @@ import {
 import { Menu as MenuIcon } from '@mui/icons-material';
 
 import { IconType } from 'react-icons/lib/cjs/iconBase';
-import { APPLICATION_INFORMATION } from '../../constants/lang.constants';
+import { APPLICATION_INFORMATION } from '../../constants/langConstants';
 
 /**
  * Represents the properties of the Sidebar component.

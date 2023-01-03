@@ -1,4 +1,4 @@
-import { VACCINE_STAGES } from '../constants/base.constants';
+import { VACCINE_STAGES } from '../constants/baseConstants';
 
 export type VaccineStage = typeof VACCINE_STAGES[keyof typeof VACCINE_STAGES];
 

@@ -4,7 +4,7 @@ import Sidebar from '../../components/Sidebar';
 
 import ContentPage from '../ContentPage';
 
-import { SIDEBAR_NAV_ITEMS } from '../../constants/base.constants';
+import { SIDEBAR_NAV_ITEMS } from '../../constants/baseConstants';
 
 export default function DashboardPage() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);

@@ -1,8 +1,8 @@
 import * as storage from '../utils/storage';
 
-import { TOKEN_KEY } from '../constants/base.constants';
+import { TOKEN_KEY } from '../constants/baseConstants';
 
-import { AuthenticationToken } from '../interfaces/auth.interface';
+import { AuthenticationToken } from '../interfaces/authInterface';
 
 /**
  * Saves an authentication token to local storage.

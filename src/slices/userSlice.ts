@@ -4,7 +4,7 @@ import {
   LoginPayload,
   SignupPayload,
   AuthenticationToken,
-} from '../interfaces/auth.interface';
+} from '../interfaces/authInterface';
 
 import {
   login,

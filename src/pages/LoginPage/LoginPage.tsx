@@ -1,13 +1,13 @@
 import { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { LOGIN_FORM } from '../../constants/lang.constants';
+import { LOGIN_FORM } from '../../constants/langConstants';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import Banner from '../../components/Banner';
 
 import { showErrorMessage, showSuccessMessage } from '../../utils/toast';
-import { LoginPayload } from '../../interfaces/auth.interface';
+import { LoginPayload } from '../../interfaces/authInterface';
 import LoginForm from './LoginForm';
 import { loginUser } from '../../slices/userSlice';
 

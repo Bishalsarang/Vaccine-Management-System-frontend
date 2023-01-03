@@ -4,8 +4,8 @@ import Form from '../../components/Form';
 
 import { userLoginSchema } from '../../schemas/userSchema';
 
-import { LOGIN_FORM } from '../../constants/lang.constants';
-import { LoginPayload } from '../../interfaces/auth.interface';
+import { LOGIN_FORM } from '../../constants/langConstants';
+import { LoginPayload } from '../../interfaces/authInterface';
 
 interface Props {
   isLoading?: boolean;

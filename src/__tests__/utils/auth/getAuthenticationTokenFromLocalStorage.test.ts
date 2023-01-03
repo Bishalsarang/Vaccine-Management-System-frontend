@@ -1,4 +1,4 @@
-import { TOKEN_KEY } from '../../../constants/base.constants';
+import { TOKEN_KEY } from '../../../constants/baseConstants';
 
 import { getAuthenticationTokenFromLocalStorage } from '../../../utils/auth';
 

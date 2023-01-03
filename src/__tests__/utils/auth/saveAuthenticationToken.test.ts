@@ -1,7 +1,7 @@
 import { saveAuthenticationToken } from '../../../utils/auth';
 import { get , clear} from '../../../utils/storage';
 import { LocalStorageMock } from '../../../mocks/localStorageMock';
-import { TOKEN_KEY } from '../../../constants/base.constants';
+import { TOKEN_KEY } from '../../../constants/baseConstants';
 
 describe('saveAuthenticationToken', () => {
   beforeEach(() => {

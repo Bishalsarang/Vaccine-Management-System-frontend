@@ -4,7 +4,7 @@ import {
   LOGIN_FORM,
   SIGNUP_FORM,
   APPLICATION_INFORMATION,
-} from '../../constants/lang.constants';
+} from '../../constants/langConstants';
 
 import * as routes from '../../constants/routesConstants';
 

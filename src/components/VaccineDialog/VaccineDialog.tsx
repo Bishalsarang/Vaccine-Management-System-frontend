@@ -10,13 +10,13 @@ import {
   createVaccineThunk,
   updateVaccineThunk,
 } from '../../slices/vaccineSlice';
-import { VACCINE_STAGES } from '../../constants/base.constants';
+import { VACCINE_STAGES } from '../../constants/baseConstants';
 import {
   PatchVaccinePayload,
   CreateVaccinePayload,
 } from '../../interfaces/vaccineInterface';
 import { useCallback, useEffect, useState } from 'react';
-import { CONTENT_TYPE } from '../../constants/http.constants';
+import { CONTENT_TYPE } from '../../constants/httpConstants';
 import { showSuccessMessage } from '../../utils/toast';
 import { Backdrop, CircularProgress } from '@mui/material';
 

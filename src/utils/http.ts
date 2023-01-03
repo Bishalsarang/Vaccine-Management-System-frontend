@@ -7,14 +7,14 @@ import { API_BASE_URL } from '../config';
 
 import { logoutUser, refreshTokenThunk } from '../slices/userSlice';
 
-import { AuthenticationToken } from '../interfaces/auth.interface';
+import { AuthenticationToken } from '../interfaces/authInterface';
 
 import {
   BOTH_TOKEN_MISSING,
   MAX_RETRIES_EXCEEDED,
   AXIOS_RESPONSE_ERROR_TOAST,
-} from '../constants/lang.constants';
-import { AUTHENTICATION_SCHEME_BEARER } from '../constants/base.constants';
+} from '../constants/langConstants';
+import { AUTHENTICATION_SCHEME_BEARER } from '../constants/baseConstants';
 
 // Since directly importing store.ts cause circular dependency: store.ts > slices/vaccineSlice.ts > services/vaccineService.ts > utils/axios.ts
 // We can follow this pattern: https://redux.js.org/faq/code-structure#how-can-i-use-the-redux-store-in-non-component-files

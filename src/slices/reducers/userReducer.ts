@@ -1,4 +1,4 @@
-import { AuthenticationToken } from '../../interfaces/auth.interface';
+import { AuthenticationToken } from '../../interfaces/authInterface';
 import { getUserInfoFromToken } from '../../utils/auth';
 
 /**

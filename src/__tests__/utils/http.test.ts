@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from 'axios';
 import configureStore from 'redux-mock-store';
-import { MAX_RETRIES_EXCEEDED } from '../../constants/lang.constants';
+import { MAX_RETRIES_EXCEEDED } from '../../constants/langConstants';
 import { StoreType } from '../../store';
 import { axiosInstance, getConfigWithAccessToken, handleResponseError, injectStore } from '../../utils/http';
 
