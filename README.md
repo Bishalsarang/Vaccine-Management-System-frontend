@@ -28,7 +28,7 @@ A live demo of the app is available at [https://vaccine-fe-static.onrender.com/s
 -   [React Testing Library](https://testing-library.com/docs/react-testing-library/intro)
 
 ## Features
-✔️ **Signup and Login Flow**
+✅ **Signup and Login Flow**
 
 ✔️ **Routing with react router**
 
