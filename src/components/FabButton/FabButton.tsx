@@ -45,7 +45,7 @@ function FabButton({
     <Tooltip title={tooltipMessage}>
       <Fab
         color="secondary"
-        aria-label="add"
+        aria-label="fab-button"
         sx={{
           right: 60,
           bottom: 80,

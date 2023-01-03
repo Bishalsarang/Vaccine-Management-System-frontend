@@ -7,7 +7,7 @@ import {
 import userReducer from './slices/userSlice';
 import vaccineReducer from './slices/vaccineSlice';
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
   user: userReducer,
   vaccine: vaccineReducer,
 });

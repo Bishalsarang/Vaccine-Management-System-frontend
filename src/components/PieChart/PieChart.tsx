@@ -83,7 +83,7 @@ export function PieChartWrapper({
   }
 
   return (
-    <PieChart width={width} height={height}>
+    <PieChart data-testid="pie-chart" width={width} height={height}>
       <Legend verticalAlign="bottom" align="center"></Legend>
       <Pie
         label

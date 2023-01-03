@@ -9,6 +9,7 @@ import { Provider } from 'react-redux';
 import { setupStore, StoreType, RootState } from '../store';
 import { initialState as userInitialState } from '../slices/userSlice';
 import { initialState as vaccineInitialState } from '../slices/vaccineSlice';
+import { BrowserRouter } from 'react-router-dom';
 
 // This type interface extends the default options for render from RTL, as well
 // as allows the user to specify other things such as initialState, store.
@@ -31,3 +32,14 @@ export function renderWithProviders(
   }
   return { store, ...render(ui, { wrapper: Wrapper, ...renderOptions }) };
 }
+
+export const renderWithRouter = (
+  ui: React.ReactElement,
+  { route = '/' } = {},
+) => {
+  window.history.pushState({}, 'Test page', route);
+
+  return {
+    ...render(ui, { wrapper: BrowserRouter }),
+  };
+};
