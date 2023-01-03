@@ -57,7 +57,7 @@ export default function Sidebar({
   navigationItems = [],
 }: SidebarProps) {
   return (
-    <div className="bg-white shadow-md">
+    <div className="bg-white shadow-md" data-testid="sidebar">
       {!isOpen && (
         <div>
           <div className="mb-4 flex items-center p-4">

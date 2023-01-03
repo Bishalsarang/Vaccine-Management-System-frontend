@@ -94,12 +94,19 @@ export function DialogWrapper({
   ...rest
 }: DialogWrapperProps) {
   return (
-    <Dialog fullWidth open={open} onClose={onClose} {...rest}>
+    <Dialog
+      fullWidth
+      open={open}
+      onClose={onClose}
+      data-testid="dialog"
+      {...rest}
+    >
       <DialogTitle>{heading}</DialogTitle>
       <DialogContent>
         {isLoading && (
           <Backdrop
             open
+            data-testid="loading-spinner"
             sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
           >
             <CircularProgress color="inherit" />

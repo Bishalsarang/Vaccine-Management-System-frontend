@@ -22,6 +22,15 @@ describe('get', () => {
     set('key', {"foo": "bar"});
     expect(get('key')).toEqual({ foo: 'bar' });
   });
+  
+  test('It should return the value for a key with invalid JSON value', () => {
+    // Set an invalid JSON value in localStorage
+    set('key', '{"invalid":json}');
+
+    // Test the get function
+    const value = get('key');
+    expect(value).toEqual('{"invalid":json}');
+  });
 });
 
 
